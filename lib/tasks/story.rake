@@ -1,9 +1,11 @@
+require 'open3'
+
 namespace :story do
   desc "Create a story from a url, run rake story:create URL=http://www.newyorker.com/books/joshua-rothman/what-are-the-odds-we-are-living-in-a-computer-simulation"
   task :create => :environment do
     body = fetch_article_content(ENV['URL'])
     content = clean_article_content(body['content'])
-    speech = convert_to_speech(content)
+    file_list = convert_to_speech(content)
     # use ffmpeg to build/combine an mp3 with logo and metadata etc
     # upload it to soundcloud
   end
@@ -33,8 +35,11 @@ namespace :story do
 
   # run the text through node + ivona
   def convert_to_speech(content)
-    require 'open3'
     stdin, stdout, stderr = Open3.popen3("timeout 10 phantomjs scraper.js \"#{url}\" ")
     responses = stdout.read.split("\n")
+  end
+  
+  def create_mp3(file_list)
+    stdin, stdout, stderr = Open3.popen3('ffmpeg -i "' + file_list.slice(0, -1) + '" -c copy content/' + Date.now() +'.mp3 -y')
   end
 end
