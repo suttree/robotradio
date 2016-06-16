@@ -34,9 +34,14 @@ namespace :story do
   end
 
   # run the text through node + ivona
+  # - v2, use a tokenizer to split apart the content better
   def convert_to_speech(content)
-    stdin, stdout, stderr = Open3.popen3("timeout 10 phantomjs scraper.js \"#{url}\" ")
-    responses = stdout.read.split("\n")
+    responses = []
+    content.scan(/[^\.!?]+[\.!?]/).map(&:strip).each do |line|
+      stdin, stdout, stderr = Open3.popen3("script/ivona.js \"#{line}\" ")
+      responses << stdout.read.split("\n")
+    end
+    responses
   end
 
   # use ffmpeg to build/combine an mp3 with logo and metadata etc  
