@@ -37,8 +37,9 @@ namespace :story do
   # - v2, use a tokenizer to split apart the content better
   def convert_to_speech(content)
     responses = []
-    content.scan(/[^\.!?]+[\.!?]/).map(&:strip).each do |line|
-      stdin, stdout, stderr = Open3.popen3("script/ivona.js \"#{line}\" ")
+    content.scan(/[^\.!?]+[\.!?]/).map(&:strip).each_with_index do |line, index|
+      file_name = "rps-#{index}.mp3"
+      stdin, stdout, stderr = Open3.popen3("script/ivona.js \"#{file_name}\" \"#{line}\" ")
       responses << stdout.read.split("\n")
     end
     responses
@@ -46,7 +47,7 @@ namespace :story do
 
   # use ffmpeg to build/combine an mp3 with logo and metadata etc  
   def create_mp3(file_list)
-    stdin, stdout, stderr = Open3.popen3('ffmpeg -i "' + file_list.slice(0, -1) + '" -c copy content/' + Date.now() +'.mp3 -y')
+    stdin, stdout, stderr = Open3.popen3('ffmpeg -i "concat:' + file_list.slice(0, -1) + '" -c copy content/' + Date.now() +'.mp3 -y')
     return 'content/' + Date.now() +'.mp3'
   end
 end
