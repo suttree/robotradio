@@ -6,7 +6,7 @@ namespace :story do
     body = fetch_article_content(ENV['URL'])
     content = clean_article_content(body['content'])
     file_list = convert_to_speech(content)
-    # use ffmpeg to build/combine an mp3 with logo and metadata etc
+    mp3 = create_mp3(file_list)
     # upload it to soundcloud
   end
 
@@ -38,8 +38,10 @@ namespace :story do
     stdin, stdout, stderr = Open3.popen3("timeout 10 phantomjs scraper.js \"#{url}\" ")
     responses = stdout.read.split("\n")
   end
-  
+
+  # use ffmpeg to build/combine an mp3 with logo and metadata etc  
   def create_mp3(file_list)
     stdin, stdout, stderr = Open3.popen3('ffmpeg -i "' + file_list.slice(0, -1) + '" -c copy content/' + Date.now() +'.mp3 -y')
+    return 'content/' + Date.now() +'.mp3'
   end
 end
