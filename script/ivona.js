@@ -21,5 +21,5 @@ ivona.createVoice(args[1], {
         gender: 'Female'
       }
     }
-}).pipe(fs.createWriteStream('tmp/ + file_name));
+}).pipe(fs.createWriteStream('tmp/' + file_name));
 console.log('tmp/' + file_name);
