@@ -9,6 +9,8 @@ namespace :story do
     file_list = convert_to_speech(content)
     mp3 = create_mp3(file_list, body['title'])
     # upload it to soundcloud
+    # https://github.com/moumar/ruby-mp3info
+    # https://github.com/soundcloud/soundcloud-ruby
   end
 
   def fetch_article_content(article_url)
