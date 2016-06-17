@@ -46,11 +46,9 @@ namespace :story do
   # use ffmpeg to build/combine an mp3 with logo and metadata etc  
   def create_mp3(file_list, title)
     title = title.downcase.gsub(/\W/,'')
-    stdin, stdout, stderr = Open3.popen3('ffmpeg -i "concat:' + file_list.join('|') + '" -c copy content/' + title + '.mp3 -y')
-    puts 'ffmpeg -i "concat:' + file_list.join('|') + '" -c copy content/' + title + '.mp3 -y'
-puts stdin
-puts stdout
-puts stderr
+    #stdin, stdout, stderr = Open3.popen3('ffmpeg -i "concat:' + file_list.join('|') + '" -c copy content/' + title + '.mp3 -y')
+    #puts 'ffmpeg -i "concat:' + file_list.join('|') + '" -c copy content/' + title + '.mp3 -y'
+    `ffmpeg -i "concat:#{file_list.join('|')}" -c copy content/#{title}.mp3 -y`
     return 'content/' + title + '.mp3'
   end
 end
