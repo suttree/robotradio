@@ -1,3 +1,5 @@
+#TODO deal with too many open files error
+
 require 'open3'
 require 'uri'
 require 'open-uri'
@@ -88,7 +90,8 @@ namespace :story do
     playlist_url = Date.today.strftime('%a-%e-%b-%Y')
     playlist_title = Date.today.strftime('%a %e %b %Y')
     playlist = begin
-      #client.get('/resolve', :url => 'https://soundcloud.com/troisienne/sets/' + playlist_url)
+      puts client.get('/resolve', :url => 'https://soundcloud.com/troisienne/sets/' + playlist_url)
+exit
       client.put('https://soundcloud.com/troisienne/sets/' + playlist_url, :playlist => {
         :tracks => [:id => track.id]
       })
