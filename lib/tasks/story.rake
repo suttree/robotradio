@@ -1,6 +1,6 @@
 require 'open3'
 require 'uri'
-require 'iconv'
+require 'open-uri'
 require 'mp3info'
 
 namespace :story do
@@ -49,7 +49,7 @@ namespace :story do
 
   # use ffmpeg to build/combine an mp3 with logo and metadata etc  
   def create_mp3(file_list, title, image)
-    cover_image = (image ? URI.parse(image) : Rails.root + 'app/assets/images/default_cover_image.jpg')
+    cover_image = (image ? URI.parse(image) : File.new(Rails.root + 'app/assets/images/default_cover_image.jpg', 'rb'))
     normalised_title = title.downcase.gsub(/\W/,'')
 
     # join together each audio line to create a full mp3
@@ -57,7 +57,8 @@ namespace :story do
 
     # add some metadata
     mp3 = 'content/' + normalised_title + '.mp3'
-    file = File.new(cover_image,'rb')
+    #file = File.new(cover_image,'rb')
+    file = cover_image
     Mp3Info.open(mp3) do |mp3|
       mp3.tag.title = title
       mp3.tag.artist = 'Real pirates ship'
