@@ -48,4 +48,4 @@ end
 gem 'httparty'
 gem 'htmlentities'
 gem 'ruby-mp3info'
-gem 'iconv'
+gem 'soundcloud'

@@ -2,6 +2,7 @@ require 'open3'
 require 'uri'
 require 'open-uri'
 require 'mp3info'
+require 'soundcloud'
 
 namespace :story do
   desc "Create a story from a url, run rake story:create URL=http://www.newyorker.com/books/joshua-rothman/what-are-the-odds-we-are-living-in-a-computer-simulation"
@@ -10,9 +11,9 @@ namespace :story do
     content = clean_article_content(body['content'])
     file_list = convert_to_speech(content)
     mp3 = create_mp3(file_list, body['title'], body['lead_image_url'])
-    # upload it to soundcloud
-    # https://github.com/moumar/ruby-mp3info
-    # https://github.com/soundcloud/soundcloud-ruby
+    track = upload_to_soundcloud(mp3, body['title'])
+
+    puts "Story created: #{track.permalink_url}"
   end
 
   def fetch_article_content(article_url)
@@ -67,5 +68,38 @@ namespace :story do
     end
 
     return mp3
+  end
+
+  def upload_to_soundcloud(mp3, title)
+    #client = Soundcloud.new(:access_token => Rails.application.secrets.soundcloud_client_id)
+    client = Soundcloud.new(
+                  :client_id => Rails.application.secrets.soundcloud_client_id,
+                  :client_secret => Rails.application.secrets.soundcloud_client_secret,
+                  :username      => Rails.application.secrets.soundcloud_username,
+                  :password      => Rails.application.secrets.soundcloud_password
+                )
+
+    track = client.post('/tracks', :track => {
+      :title => title,
+      :asset_data => File.new(mp3, 'rb')
+    })
+
+    # create a playlist for today if it doesn't exist
+    playlist_url = Date.today.strftime('%a-%e-%b-%Y')
+    playlist_title = Date.today.strftime('%a %e %b %Y')
+    playlist = begin
+      #client.get('/resolve', :url => 'https://soundcloud.com/troisienne/sets/' + playlist_url)
+      client.put('https://soundcloud.com/troisienne/sets/' + playlist_url, :playlist => {
+        :tracks => [:id => track.id]
+      })
+    rescue SoundCloud::ResponseError
+      client.post('/playlists', :playlist => {
+        :title => playlist_title,
+        :sharing => 'public',
+        :tracks => [:id => track.id],
+        :artwork_url => 'https://i1.sndcdn.com/artworks-000164994204-9mg4o4-t500x500.jpg',
+      })
+    end
+    track
   end
 end
