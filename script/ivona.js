@@ -10,13 +10,16 @@ var ivona = new Ivona({
   secretKey: 'l5tEgLDQzeR85ZuH8/VMvS1Px7Noltuac6ZDjQwQ'
 });
 
+var voices = ['Emma', 'Amy', 'Raveena', 'Gwyneth']
+var voice = voices[Math.floor(Math.random() * voices.length)];
+
 var args = process.argv.slice(2)
 var file_name = args[0];
 
 ivona.createVoice(args[1], {
     body: {
       voice: {
-        name: 'Emma',
+        name: voice,
         language: 'en-GB',
         gender: 'Female'
       }

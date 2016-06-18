@@ -1,4 +1,4 @@
-#TODO deal with too many open files error
+#TODO add link to mp3 metadata
 
 require 'open3'
 require 'uri'
@@ -34,17 +34,31 @@ namespace :story do
     clean = clean.gsub(/(?:(?:\r\n|\r|\n)\s*){2,}/i, '\n')
     clean = clean.gsub(/(<([^>]+)>)/i, '')
     clean = clean.gsub('&nbsp;', ' ')
+    clean = clean.gsub('\n', ' ')
     clean = HTMLEntities.new.decode(clean)
     clean = clean.strip
   end
 
-  # run the text through node + ivona
+  # split the article into smaller pieces and run the text through node + ivona
   # - v2, use a tokenizer to split apart the content better
   def convert_to_speech(content)
+    piece = ''
+    pieces = []
     responses = []
-    content.scan(/[^\.!?]+[\.!?]/).map(&:strip).each_with_index do |line, index|
+
+    content.scan(/[^\.!?]+[\.!?]/).map(&:strip).each do |sentence|
+      piece += sentence + '. '
+      if piece.length > 1000
+        pieces << piece
+        piece = '' 
+      end
+    end
+    pieces << piece;
+
+    pieces.each_with_index do |piece, index|
+      piece.gsub!('"', "'") # remove double quotes as they mess with the shonky shell-out below
       file_name = "rps-#{index}.mp3"
-      stdin, stdout, stderr = Open3.popen3("node script/ivona.js \"#{file_name}\" \"#{line}\" ")
+      stdin, stdout, stderr = Open3.popen3("node script/ivona.js \"#{file_name}\" \"#{piece}\" ")
       responses << stdout.read.split("\n")
     end
     responses
@@ -52,28 +66,27 @@ namespace :story do
 
   # use ffmpeg to build/combine an mp3 with logo and metadata etc  
   def create_mp3(file_list, title, image)
-    cover_image = (image ? URI.parse(image) : File.new(Rails.root + 'app/assets/images/default_cover_image.jpg', 'rb'))
     normalised_title = title.downcase.gsub(/\W/,'')
 
     # join together each audio line to create a full mp3
     `ffmpeg -i "concat:#{file_list.join('|')}" -c copy content/#{normalised_title}.mp3 -y`
 
     # add some metadata
+    cover_image = (image ? URI.parse(image) : File.new(Rails.root + 'app/assets/images/default_cover_image.jpg', 'rb'))
+    cover_image.read rescue (cover_image = false)
+
     mp3 = 'content/' + normalised_title + '.mp3'
-    #file = File.new(cover_image,'rb')
-    file = cover_image
     Mp3Info.open(mp3) do |mp3|
       mp3.tag.title = title
       mp3.tag.artist = 'Real pirates ship'
       mp3.tag.album = Date.today.to_s
-      mp3.tag2.add_picture(file.read)
+      mp3.tag2.add_picture(cover_image.read) if cover_image
     end
 
     return mp3
   end
 
   def upload_to_soundcloud(mp3, title)
-    #client = Soundcloud.new(:access_token => Rails.application.secrets.soundcloud_client_id)
     client = Soundcloud.new(
                   :client_id => Rails.application.secrets.soundcloud_client_id,
                   :client_secret => Rails.application.secrets.soundcloud_client_secret,
@@ -87,22 +100,22 @@ namespace :story do
     })
 
     # create a playlist for today if it doesn't exist
-    playlist_url = Date.today.strftime('%a-%e-%b-%Y')
-    playlist_title = Date.today.strftime('%a %e %b %Y')
-    playlist = begin
-      puts client.get('/resolve', :url => 'https://soundcloud.com/troisienne/sets/' + playlist_url)
-exit
-      client.put('https://soundcloud.com/troisienne/sets/' + playlist_url, :playlist => {
-        :tracks => [:id => track.id]
-      })
-    rescue SoundCloud::ResponseError
-      client.post('/playlists', :playlist => {
-        :title => playlist_title,
-        :sharing => 'public',
-        :tracks => [:id => track.id],
-        :artwork_url => 'https://i1.sndcdn.com/artworks-000164994204-9mg4o4-t500x500.jpg',
-      })
-    end
+    # - tracks should be id of existing tracks plus new, not just one track id
+    #playlist_url = Date.today.strftime('%a-%e-%b-%Y')
+    #playlist_title = Date.today.strftime('%a %e %b %Y')
+    #playlist = begin
+    #  puts client.get('/resolve', :url => 'https://soundcloud.com/troisienne/sets/' + playlist_url)
+    #  client.put('https://soundcloud.com/troisienne/sets/' + playlist_url, :playlist => {
+    #    :tracks => [:id => track.id]
+    #  })
+    #rescue SoundCloud::ResponseError
+    #  client.post('/playlists', :playlist => {
+    #    :title => playlist_title,
+    #    :sharing => 'public',
+    #    :tracks => [:id => track.id],
+    #    :artwork_url => 'https://i1.sndcdn.com/artworks-000164994204-9mg4o4-t500x500.jpg',
+    #  })
+    #end
     track
   end
 end
