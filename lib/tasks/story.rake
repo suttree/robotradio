@@ -10,10 +10,27 @@ namespace :story do
   desc "Create a story from a url, run rake story:create URL=http://www.newyorker.com/books/joshua-rothman/what-are-the-odds-we-are-living-in-a-computer-simulation"
   task :create => :environment do
     body = fetch_article_content(ENV['URL'])
+    title = clean_article_content(body['title'])
     content = clean_article_content(body['content'])
-    file_list = convert_to_speech(content)
+
+    title_in_ssml = <<-eos
+      <speak>
+        <break strength='x-strong' />
+        <p>
+          <s>
+            #{title}
+          </s>
+        </p>
+        <break strength='x-strong' />
+      </speak>
+    eos
+
+    title_file = ssml_convert_to_speech(title_in_ssml, 'application/ssml+xml')
+    body_list = convert_to_speech(content)
+    file_list = [title_file, body_list].flatten
+
     mp3 = create_mp3(file_list, body['title'], body['lead_image_url'])
-    track = upload_to_soundcloud(mp3, body['title'])
+#    track = upload_to_soundcloud(mp3, body['title'])
 
     puts "Story created: #{track.permalink_url}"
   end
@@ -39,9 +56,15 @@ namespace :story do
     clean = clean.strip
   end
 
+  def ssml_convert_to_speech(content, type = 'application/ssml+xml')
+    file_name = "title.mp3"
+    stdin, stdout, stderr = Open3.popen3("node script/ivona.js \"#{file_name}\" \"#{content}\" \"#{type}\" ")
+    stdout.read.split("\n")
+  end
+
   # split the article into smaller pieces and run the text through node + ivona
   # - v2, use a tokenizer to split apart the content better
-  def convert_to_speech(content)
+  def convert_to_speech(content, type = 'text/plain')
     piece = ''
     pieces = []
     responses = []
@@ -58,7 +81,7 @@ namespace :story do
     pieces.each_with_index do |piece, index|
       piece.gsub!('"', "'") # remove double quotes as they mess with the shonky shell-out below
       file_name = "rps-#{index}.mp3"
-      stdin, stdout, stderr = Open3.popen3("node script/ivona.js \"#{file_name}\" \"#{piece}\" ")
+      stdin, stdout, stderr = Open3.popen3("node script/ivona.js \"#{file_name}\" \"#{piece}\" \"#{type}\" ")
       responses << stdout.read.split("\n")
     end
     responses
@@ -94,28 +117,9 @@ namespace :story do
                   :password      => Rails.application.secrets.soundcloud_password
                 )
 
-    track = client.post('/tracks', :track => {
+    client.post('/tracks', :track => {
       :title => title,
       :asset_data => File.new(mp3, 'rb')
     })
-
-    # create a playlist for today if it doesn't exist
-    # - tracks should be id of existing tracks plus new, not just one track id
-    #playlist_url = Date.today.strftime('%a-%e-%b-%Y')
-    #playlist_title = Date.today.strftime('%a %e %b %Y')
-    #playlist = begin
-    #  puts client.get('/resolve', :url => 'https://soundcloud.com/troisienne/sets/' + playlist_url)
-    #  client.put('https://soundcloud.com/troisienne/sets/' + playlist_url, :playlist => {
-    #    :tracks => [:id => track.id]
-    #  })
-    #rescue SoundCloud::ResponseError
-    #  client.post('/playlists', :playlist => {
-    #    :title => playlist_title,
-    #    :sharing => 'public',
-    #    :tracks => [:id => track.id],
-    #    :artwork_url => 'https://i1.sndcdn.com/artworks-000164994204-9mg4o4-t500x500.jpg',
-    #  })
-    #end
-    track
   end
 end
