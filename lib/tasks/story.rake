@@ -103,7 +103,7 @@ namespace :story do
     `ffmpeg -i "concat:#{file_list.join('|')}" -c copy content/#{normalised_title}.mp3 -y`
 
     # add some metadata
-    image = image.split(' ').first
+    image = image.split(' ').first rescue nil
     cover_image = (image ? URI.parse(image) : File.new(Rails.root + 'app/assets/images/default_cover_image.jpg', 'rb'))
     cover_image.read rescue (cover_image = false)
 
