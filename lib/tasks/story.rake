@@ -1,6 +1,4 @@
-#TODO add link to mp3 metadata
-#TODO find a better way to split content into paragraphs
-
+#TODO be smarter when cleaning content - replace <p>, <i> and <b> with vocal/SSML tags
 require 'open3'
 require 'uri'
 require 'open-uri'
@@ -15,7 +13,7 @@ namespace :story do
     file_list = convert_to_speech(content)
 
     mp3 = create_mp3(file_list, body['title'], body['lead_image_url'])
-#    track = upload_to_soundcloud(mp3, body['title'])
+    track = upload_to_soundcloud(mp3, body['title'])
 
     puts "Story created: #{track.permalink_url}"
   end
@@ -54,46 +52,46 @@ namespace :story do
     pieces = []
     responses = []
 
-    #content.scan(/[^\.!?]+[\.!?]/).map(&:strip).each do |sentence|
-    #  piece += sentence + '. '
-    #  if piece.length > 1000
-    #    pieces << piece
-    #    piece = '' 
-    #  end
-    #end
-    #pieces << piece;
-
-    #pieces.each_with_index do |piece, index|
-    #  piece.gsub!('"', "'") # remove double quotes as they mess with the shonky shell-out below
-    #  file_name = "rps-#{index}.mp3"
-    #  stdin, stdout, stderr = Open3.popen3("node script/ivona.js \"#{file_name}\" \"#{piece}\" \"#{type}\" ")
-    #  responses << stdout.read.split("\n")
-    #end
-
-    content.split(/\n\n/).each do |paragraph|
-      paragraph.gsub!(/(?:(?:\r\n|\r|\n)\s*){2,}/i, '')
-      paragraph.gsub!('\n', '')
-      paragraph.strip!
-      next if paragraph.blank?
-      pieces << paragraph + ".    "
+    content.scan(/[^\.!?]+[\.!?]/).map(&:strip).each do |sentence|
+      piece += sentence + '. '
+      if piece.length > 1000
+        pieces << piece
+        piece = '' 
+      end
     end
+    pieces << piece;
 
-    type = 'application/ssml+xml'
     pieces.each_with_index do |piece, index|
       piece.gsub!('"', "'") # remove double quotes as they mess with the shonky shell-out below
       file_name = "rps-#{index}.mp3"
-      piece_in_ssml = <<-eos
-        <speak>
-          <p>
-            <break strength='strong' />
-            <s>#{piece}</s>
-            <break strength='x-strong' />
-          </p>
-        </speak>
-      eos
-      stdin, stdout, stderr = Open3.popen3("node script/ivona.js \"#{file_name}\" \"#{piece_in_ssml}\" \"#{type}\" ")
+      stdin, stdout, stderr = Open3.popen3("node script/ivona.js \"#{file_name}\" \"#{piece}\" \"#{type}\" ")
       responses << stdout.read.split("\n")
     end
+
+    #content.split(/\n\n/).each do |paragraph|
+    #  paragraph.gsub!(/(?:(?:\r\n|\r|\n)\s*){2,}/i, '')
+    #  paragraph.gsub!('\n', '')
+    #  paragraph.strip!
+    #  next if paragraph.blank?
+    #  pieces << paragraph + ".    "
+    #end
+    #
+    #type = 'application/ssml+xml'
+    #pieces.each_with_index do |piece, index|
+    #  piece.gsub!('"', "'") # remove double quotes as they mess with the shonky shell-out below
+    #  file_name = "rps-#{index}.mp3"
+    #  piece_in_ssml = <<-eos
+    #    <speak>
+    #      <p>
+    #        <break strength='strong' />
+    #        <s>#{piece}</s>
+    #        <break strength='x-strong' />
+    #      </p>
+    #    </speak>
+    #  eos
+    #  stdin, stdout, stderr = Open3.popen3("node script/ivona.js \"#{file_name}\" \"#{piece_in_ssml}\" \"#{type}\" ")
+    #  responses << stdout.read.split("\n")
+    #end
     responses
   end
 
@@ -105,6 +103,7 @@ namespace :story do
     `ffmpeg -i "concat:#{file_list.join('|')}" -c copy content/#{normalised_title}.mp3 -y`
 
     # add some metadata
+    image = image.split(' ').first
     cover_image = (image ? URI.parse(image) : File.new(Rails.root + 'app/assets/images/default_cover_image.jpg', 'rb'))
     cover_image.read rescue (cover_image = false)
 
