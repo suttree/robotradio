@@ -1,4 +1,5 @@
 #TODO add link to mp3 metadata
+#TODO find a better way to split content into paragraphs
 
 require 'open3'
 require 'uri'
@@ -10,24 +11,8 @@ namespace :story do
   desc "Create a story from a url, run rake story:create URL=http://www.newyorker.com/books/joshua-rothman/what-are-the-odds-we-are-living-in-a-computer-simulation"
   task :create => :environment do
     body = fetch_article_content(ENV['URL'])
-    title = clean_article_content(body['title'])
     content = clean_article_content(body['content'])
-
-    title_in_ssml = <<-eos
-      <speak>
-        <break strength='x-strong' />
-        <p>
-          <s>
-            #{title}
-          </s>
-        </p>
-        <break strength='x-strong' />
-      </speak>
-    eos
-
-    title_file = ssml_convert_to_speech(title_in_ssml, 'application/ssml+xml')
-    body_list = convert_to_speech(content)
-    file_list = [title_file, body_list].flatten
+    file_list = convert_to_speech(content)
 
     mp3 = create_mp3(file_list, body['title'], body['lead_image_url'])
 #    track = upload_to_soundcloud(mp3, body['title'])
@@ -48,12 +33,12 @@ namespace :story do
   def clean_article_content(content)
     clean = ActionView::Base.full_sanitizer.sanitize(content)
     clean = clean.gsub(/<(?:.|\n)*?>/m, '')
-    clean = clean.gsub(/(?:(?:\r\n|\r|\n)\s*){2,}/i, '\n')
+    #clean = clean.gsub(/(?:(?:\r\n|\r|\n)\s*){2,}/i, '\n')
     clean = clean.gsub(/(<([^>]+)>)/i, '')
     clean = clean.gsub('&nbsp;', ' ')
-    clean = clean.gsub('\n', ' ')
+    #clean = clean.gsub('\n', ' ')
     clean = HTMLEntities.new.decode(clean)
-    clean = clean.strip
+    clean.strip
   end
 
   def ssml_convert_to_speech(content, type = 'application/ssml+xml')
@@ -69,19 +54,44 @@ namespace :story do
     pieces = []
     responses = []
 
-    content.scan(/[^\.!?]+[\.!?]/).map(&:strip).each do |sentence|
-      piece += sentence + '. '
-      if piece.length > 1000
-        pieces << piece
-        piece = '' 
-      end
-    end
-    pieces << piece;
+    #content.scan(/[^\.!?]+[\.!?]/).map(&:strip).each do |sentence|
+    #  piece += sentence + '. '
+    #  if piece.length > 1000
+    #    pieces << piece
+    #    piece = '' 
+    #  end
+    #end
+    #pieces << piece;
 
+    #pieces.each_with_index do |piece, index|
+    #  piece.gsub!('"', "'") # remove double quotes as they mess with the shonky shell-out below
+    #  file_name = "rps-#{index}.mp3"
+    #  stdin, stdout, stderr = Open3.popen3("node script/ivona.js \"#{file_name}\" \"#{piece}\" \"#{type}\" ")
+    #  responses << stdout.read.split("\n")
+    #end
+
+    content.split(/\n\n/).each do |paragraph|
+      paragraph.gsub!(/(?:(?:\r\n|\r|\n)\s*){2,}/i, '')
+      paragraph.gsub!('\n', '')
+      paragraph.strip!
+      next if paragraph.blank?
+      pieces << paragraph + ".    "
+    end
+
+    type = 'application/ssml+xml'
     pieces.each_with_index do |piece, index|
       piece.gsub!('"', "'") # remove double quotes as they mess with the shonky shell-out below
       file_name = "rps-#{index}.mp3"
-      stdin, stdout, stderr = Open3.popen3("node script/ivona.js \"#{file_name}\" \"#{piece}\" \"#{type}\" ")
+      piece_in_ssml = <<-eos
+        <speak>
+          <p>
+            <break strength='strong' />
+            <s>#{piece}</s>
+            <break strength='x-strong' />
+          </p>
+        </speak>
+      eos
+      stdin, stdout, stderr = Open3.popen3("node script/ivona.js \"#{file_name}\" \"#{piece_in_ssml}\" \"#{type}\" ")
       responses << stdout.read.split("\n")
     end
     responses
@@ -103,6 +113,7 @@ namespace :story do
       mp3.tag.title = title
       mp3.tag.artist = 'Real pirates ship'
       mp3.tag.album = Date.today.to_s
+      mp3.tag.comment = ENV['URL']
       mp3.tag2.add_picture(cover_image.read) if cover_image
     end
 
