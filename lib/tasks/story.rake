@@ -12,7 +12,7 @@ namespace :story do
     content = clean_article_content(body['content'])
 
     intro = body['title'] + '.. ' + Time.now.strftime("%A, %B #{Time.now.day.ordinalize}, %Y")
-    title_file = ssml_convert_to_speech(intro)
+    title_file = ssml_convert_to_speech(intro, 'title.mp3')
     file_list = convert_to_speech(content)
 
     file_list = [title_file, file_list].flatten
@@ -44,8 +44,7 @@ namespace :story do
     clean.strip
   end
 
-  def ssml_convert_to_speech(content, type = 'application/ssml+xml')
-    file_name = "title.mp3"
+  def ssml_convert_to_speech(content, file_name, type = 'application/ssml+xml')
     content = <<-eos
       <speak>
         <break/>#{content}<break/>
@@ -74,34 +73,10 @@ namespace :story do
     pieces.each_with_index do |piece, index|
       piece.gsub!('"', "'") # remove double quotes as they mess with the shonky shell-out below
       file_name = "rps-#{index}.mp3"
-      stdin, stdout, stderr = Open3.popen3("node script/ivona.js \"#{file_name}\" \"#{piece}\" \"#{type}\" ")
-      responses << stdout.read.split("\n")
+      #stdin, stdout, stderr = Open3.popen3("node script/ivona.js \"#{file_name}\" \"#{piece}\" \"#{type}\" ")
+      #responses << stdout.read.split("\n")
+      responses << ssml_convert_to_speech(piece, file_name)
     end
-
-    #content.split(/\n\n/).each do |paragraph|
-    #  paragraph.gsub!(/(?:(?:\r\n|\r|\n)\s*){2,}/i, '')
-    #  paragraph.gsub!('\n', '')
-    #  paragraph.strip!
-    #  next if paragraph.blank?
-    #  pieces << paragraph + ".    "
-    #end
-    #
-    #type = 'application/ssml+xml'
-    #pieces.each_with_index do |piece, index|
-    #  piece.gsub!('"', "'") # remove double quotes as they mess with the shonky shell-out below
-    #  file_name = "rps-#{index}.mp3"
-    #  piece_in_ssml = <<-eos
-    #    <speak>
-    #      <p>
-    #        <break strength='strong' />
-    #        <s>#{piece}</s>
-    #        <break strength='x-strong' />
-    #      </p>
-    #    </speak>
-    #  eos
-    #  stdin, stdout, stderr = Open3.popen3("node script/ivona.js \"#{file_name}\" \"#{piece_in_ssml}\" \"#{type}\" ")
-    #  responses << stdout.read.split("\n")
-    #end
     responses
   end
 
