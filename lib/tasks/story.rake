@@ -10,7 +10,12 @@ namespace :story do
   task :create => :environment do
     body = fetch_article_content(ENV['URL'])
     content = clean_article_content(body['content'])
+
+    intro = body['title'] + '.. ' + Time.now.strftime("%A, %B #{time.day.ordinalize}, %Y")
+    title_file = ssml_convert_to_speech(intro)
     file_list = convert_to_speech(content)
+
+    file_list = [title_file, file_list].flatten
 
     mp3 = create_mp3(file_list, body['title'], body['lead_image_url'])
     track = upload_to_soundcloud(mp3, body['title'])
@@ -41,6 +46,15 @@ namespace :story do
 
   def ssml_convert_to_speech(content, type = 'application/ssml+xml')
     file_name = "title.mp3"
+    content = <<-eos
+      <speak>
+        <p>
+          <break strength='strong' />
+          <s>#{content}</s>
+          <break strength='x-strong' />
+        </p>
+      </speak>
+    eos
     stdin, stdout, stderr = Open3.popen3("node script/ivona.js \"#{file_name}\" \"#{content}\" \"#{type}\" ")
     stdout.read.split("\n")
   end
