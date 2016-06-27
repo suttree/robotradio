@@ -11,7 +11,7 @@ namespace :story do
     body = fetch_article_content(ENV['URL'])
     content = clean_article_content(body['content'])
 
-    intro = body['title'] + '.. ' + Time.now.strftime("%A, %B #{time.day.ordinalize}, %Y")
+    intro = body['title'] + '.. ' + Time.now.strftime("%A, %B #{Time.now.day.ordinalize}, %Y")
     title_file = ssml_convert_to_speech(intro)
     file_list = convert_to_speech(content)
 
@@ -48,11 +48,7 @@ namespace :story do
     file_name = "title.mp3"
     content = <<-eos
       <speak>
-        <p>
-          <break strength='strong' />
-          <s>#{content}</s>
-          <break strength='x-strong' />
-        </p>
+        <break/>#{content}<break/>
       </speak>
     eos
     stdin, stdout, stderr = Open3.popen3("node script/ivona.js \"#{file_name}\" \"#{content}\" \"#{type}\" ")
