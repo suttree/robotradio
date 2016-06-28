@@ -11,7 +11,7 @@ namespace :story do
     body = fetch_article_content(ENV['URL'])
     content = clean_article_content(body['content'])
 
-    intro = body['title'] + '.. ' + Time.now.strftime("%A, %B #{Time.now.day.ordinalize}, %Y")
+    intro = body['title'] + '. <break strength='strong'/>' + Time.now.strftime("%A, %B #{Time.now.day.ordinalize}, %Y")
     title_file = ssml_convert_to_speech(intro, 'title.mp3')
     file_list = convert_to_speech(content)
 
@@ -47,7 +47,7 @@ namespace :story do
   def ssml_convert_to_speech(content, file_name, type = 'application/ssml+xml')
     content = <<-eos
       <speak>
-        <break/>#{content}<break/>
+        <break/>#{content}<break strength='x-strong'/>
       </speak>
     eos
     stdin, stdout, stderr = Open3.popen3("node script/ivona.js \"#{file_name}\" \"#{content}\" \"#{type}\" ")
@@ -85,14 +85,14 @@ namespace :story do
     normalised_title = Time.now.strftime('%d-%m-%Y-') + title.downcase.gsub(/\W/,'')
 
     # join together each audio line to create a full mp3
-    `ffmpeg -i "concat:#{file_list.join('|')}" -c copy content/#{normalised_title}.mp3 -y`
+    `ffmpeg -i "concat:#{file_list.join('|')}" -c copy public/content/#{normalised_title}.mp3 -y`
 
     # add some metadata
     image = image.split(' ').first rescue nil
     cover_image = (image ? URI.parse(image) : File.new(Rails.root + 'app/assets/images/default_cover_image.jpg', 'rb'))
     cover_image.read rescue (cover_image = false)
 
-    mp3 = 'content/' + normalised_title + '.mp3'
+    mp3 = 'public/content/' + normalised_title + '.mp3'
     Mp3Info.open(mp3) do |mp3|
       mp3.tag.title = title
       mp3.tag.artist = 'Real pirates ship'
