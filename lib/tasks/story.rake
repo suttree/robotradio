@@ -11,7 +11,7 @@ namespace :story do
     body = fetch_article_content(ENV['URL'])
     content = clean_article_content(body['content'])
 
-    intro = body['title'] + '. <break strength='strong'/>' + Time.now.strftime("%A, %B #{Time.now.day.ordinalize}, %Y")
+    intro = body['title'] + ". <break strength='strong'/>" + Time.now.strftime("%A, %B #{Time.now.day.ordinalize}, %Y")
     title_file = ssml_convert_to_speech(intro, 'title.mp3')
     file_list = convert_to_speech(content)
 

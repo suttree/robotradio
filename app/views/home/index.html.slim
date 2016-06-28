@@ -1,0 +1,13 @@
+= flash[:notice]
+
+h1 Real pirates ship
+
+h2
+
+audio preload='none'
+
+ol
+  - @files.each do |file|
+    li 
+      =link_to file, '#', :data => {:src => file}
+

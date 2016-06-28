@@ -54,4 +54,7 @@ Rails.application.routes.draw do
   #     resources :products
   #   end
   root 'home#index'
+  match '/add', :to => 'home#add', :via => :get
+  match '/save' ,:to => 'home#save', :via => :post
+
 end
