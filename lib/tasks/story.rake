@@ -82,7 +82,7 @@ namespace :story do
 
   # use ffmpeg to build/combine an mp3 with logo and metadata etc  
   def create_mp3(file_list, title, image)
-    normalised_title = title.downcase.gsub(/\W/,'')
+    normalised_title = Time.now.strftime('%d-%m-%Y-') + title.downcase.gsub(/\W/,'')
 
     # join together each audio line to create a full mp3
     `ffmpeg -i "concat:#{file_list.join('|')}" -c copy content/#{normalised_title}.mp3 -y`
