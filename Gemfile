@@ -52,3 +52,5 @@ gem 'soundcloud'
 gem 'slim'
 gem 'slim-rails'
 gem 'audiojs-rails'
+gem 'sinatra', require: false
+gem 'sidekiq'
