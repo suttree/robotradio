@@ -52,5 +52,7 @@ gem 'soundcloud'
 gem 'slim'
 gem 'slim-rails'
 gem 'audiojs-rails'
-gem 'sinatra', require: false
-gem 'sidekiq'
+gem 'delayed_job_active_record'
+gem 'daemons'
+gem 'delayed_job_web'
+
