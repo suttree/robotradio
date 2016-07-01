@@ -1,9 +1,7 @@
 #!/usr/bin/env node
 
 var fs = require('fs'),
-  Ivona = require('ivona-node'),
-  request = require('request'),
-  fmetadata = require("ffmetadata");
+  Ivona = require('ivona-node');
 
 var ivona = new Ivona({
   accessKey: 'GDNAIWABFZTUS7TFCI5Q',

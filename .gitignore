@@ -20,3 +20,5 @@
 *.sw*
 
 .DS_Store
+/public/content/*
+public/content/*
