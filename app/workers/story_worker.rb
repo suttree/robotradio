@@ -1,4 +1,4 @@
-#TODO be smarter when cleaning content - replace <p>, <i> and <b> with vocal/SSML tags
+# TODO get the rake task using this code too
 require 'open3'
 require 'uri'
 require 'open-uri'

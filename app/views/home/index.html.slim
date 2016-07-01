@@ -9,5 +9,5 @@ audio preload='none'
 ol
   - @files.each do |file|
     li 
-      =link_to file, '#', :data => {:src => file}
+      =link_to file[1], '#', :data => {:src => file[0]}
 
