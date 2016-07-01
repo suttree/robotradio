@@ -11,6 +11,7 @@ class StoryWorker
   def perform(url)
     body = fetch_article_content(url)
     content = clean_article_content(body['content'])
+    puts content.inspect
 
     intro = body['title'] + ". <break strength='strong'/>" + Time.now.strftime("%A, %B #{Time.now.day.ordinalize}, %Y")
     title_file = ssml_convert_to_speech(intro, 'title.mp3')
@@ -85,6 +86,7 @@ class StoryWorker
 
     # join together each audio line to create a full mp3
     `ffmpeg -i "concat:#{file_list.join('|')}" -c copy public/content/#{normalised_title}.mp3 -y`
+    puts "ffmpeg -i \"concat:#{file_list.join('|')}\" -c copy public/content/#{normalised_title}.mp3 -y"
 
     # add some metadata
     image = image.split(' ').first rescue nil
@@ -92,6 +94,7 @@ class StoryWorker
     cover_image.read rescue (cover_image = false)
 
     mp3 = 'public/content/' + normalised_title + '.mp3'
+    puts mp3.inspect
     Mp3Info.open(mp3) do |mp3|
       mp3.tag.title = title
       mp3.tag.artist = 'Real pirates ship'
