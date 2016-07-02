@@ -16,7 +16,7 @@ class StoryWorker
 
     file_list = [title_file, file_list].flatten
 
-    create_mp3(file_list, body['title'], body['lead_image_url'])
+    create_mp3(file_list, body['title'], body['lead_image_url'], url)
   end
 
   protected
@@ -77,12 +77,14 @@ class StoryWorker
     responses
   end
 
-  # use ffmpeg to build/combine an mp3 with logo and metadata etc
-  def self.create_mp3(file_list, title, image)
+  # use mp3wrapto build/combine an mp3 with logo and metadata etc
+  def self.create_mp3(file_list, title, image, url)
     normalised_title = Time.now.strftime('%d-%m-%Y-') + title.downcase.gsub(/\W/,'')
 
     # join together each audio line to create a full mp3
-    `ffmpeg -i "concat:#{file_list.join('|')}" -c copy public/content/#{normalised_title}.mp3 -y`
+    file_list.collect{ |f| f.prepend(Rails.root.to_s + '/') }
+    `mp3wrap #{Rails.root}/public/content/#{normalised_title}.mp3 #{file_list.join(' ')} -y`
+    puts "mp3wrap #{Rails.root}/public/content/#{normalised_title}.mp3 #{file_list.join(' ')}"
 
     # add some metadata
     image = image.split(' ').first rescue nil
@@ -94,7 +96,7 @@ class StoryWorker
       mp3.tag.title = title
       mp3.tag.artist = 'Real pirates ship'
       mp3.tag.album = Date.today.to_s
-      mp3.tag.comment = ENV['URL']
+      mp3.tag.comment = url
       mp3.tag2.add_picture(cover_image.read) if cover_image
     end
 

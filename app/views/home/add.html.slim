@@ -1,6 +1,6 @@
 h1 Real pirates ship
 
 = form_tag '/save', :method => :post do
-  = text_field_tag 'q', 'https://www.somewhere.com/path/to/article'
+  = text_field_tag 'q', '', :placeholder => 'https://www.example.com', :size => 25
 
   = submit_tag 'Save'
