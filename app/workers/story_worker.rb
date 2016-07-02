@@ -44,10 +44,11 @@ class StoryWorker
   def self. ssml_convert_to_speech(content, file_name, type = 'application/ssml+xml')
     content = <<-eos
       <speak>
-        <break/>#{content}<break strength='x-strong'/>
+        <break/>#{content}
       </speak>
     eos
     stdin, stdout, stderr = Open3.popen3("node script/ivona.js \"#{file_name}\" \"#{content}\" \"#{type}\" ")
+puts "node script/ivona.js \"#{file_name}\" \"#{content}\" \"#{type}\" "
     stdout.read.split("\n")
   end
 
@@ -83,8 +84,12 @@ class StoryWorker
 
     # join together each audio line to create a full mp3
     file_list.collect{ |f| f.prepend(Rails.root.to_s + '/') }
-    `mp3wrap #{Rails.root}/public/content/#{normalised_title}.mp3 #{file_list.join(' ')} -y`
+    `mp3wrap #{Rails.root}/public/content/#{normalised_title}.mp3 #{file_list.join(' ')}`
+    puts file_list.inspect
     puts "mp3wrap #{Rails.root}/public/content/#{normalised_title}.mp3 #{file_list.join(' ')}"
+    puts "----"
+
+    `mv #{Rails.root}/public/content/#{normalised_title}_MP3WRAP.mp3 #{Rails.root}/public/content/#{normalised_title}.mp3`
 
     # add some metadata
     image = image.split(' ').first rescue nil
