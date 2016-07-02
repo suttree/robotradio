@@ -1,4 +1,3 @@
-# TODO get the rake task using this code too
 require 'open3'
 require 'uri'
 require 'open-uri'
