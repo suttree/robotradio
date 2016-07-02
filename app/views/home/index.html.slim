@@ -7,9 +7,10 @@ h2
 audio preload='none'
 
 ol
-  - @files.each do |file|
-    li 
-      =link_to file[1], '#', :data => {:src => file[0]}
-      - if file[2].present?
-        small= file[2]
+  - cache do
+    - @files.each do |file|
+      li 
+        =link_to file[1], '#', :data => {:src => file[0], :title => file[1], :url => file[2]}
+        - if file[2].present?
+          small= file[2]
 

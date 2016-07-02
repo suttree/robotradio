@@ -18,21 +18,39 @@
 
 
 $(function() { 
-  var a = audiojs.createAll();
+  //var a = audiojs.createAll();
+  //var audio = a[0];
+
+  // Setup the player to autoplay the next track
+  // mostly taken from view-source:http://kolber.github.io/audiojs/demos/test6.html
+  var a = audiojs.createAll({
+    trackEnded: function() {
+      var next = $('ol li.playing').next();
+      if (!next.length) next = $('ol li').first();
+      next.addClass('playing').siblings().removeClass('playing');
+      audio.load($('a', next).attr('data-src'));
+      title = $('a', next).attr('data-title');
+      $('h2').text(title);
+      audio.play();
+    }
+  });
   var audio = a[0];
 
   first = $('ol a').attr('data-src');
+  title = $('ol a').attr('data-title');
   $('ol li').first().addClass('playing');
   audio.load(first);
-  $('h2').text(first);
+  $('h2').text(title);
 
   $('ol li').click(function(e) {
     e.preventDefault();
     $(this).addClass('playing').siblings().removeClass('playing');
 
     file = $('a', this).attr('data-src');
+    title = $('a', this).attr('data-title');
+    url = $('a', this).attr('data-url');
     audio.load(file);
-    $('h2').text(file);
+    $('h2').text(title);
     audio.play();
   });
 });

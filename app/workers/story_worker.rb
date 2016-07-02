@@ -85,10 +85,6 @@ puts "node script/ivona.js \"#{file_name}\" \"#{content}\" \"#{type}\" "
     # join together each audio line to create a full mp3
     file_list.collect{ |f| f.prepend(Rails.root.to_s + '/') }
     `mp3wrap #{Rails.root}/public/content/#{normalised_title}.mp3 #{file_list.join(' ')}`
-    puts file_list.inspect
-    puts "mp3wrap #{Rails.root}/public/content/#{normalised_title}.mp3 #{file_list.join(' ')}"
-    puts "----"
-
     `mv #{Rails.root}/public/content/#{normalised_title}_MP3WRAP.mp3 #{Rails.root}/public/content/#{normalised_title}.mp3`
 
     # add some metadata

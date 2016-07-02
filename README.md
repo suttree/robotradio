@@ -13,3 +13,6 @@ RAILS_ENV=production bin/delayed_job restart
 
 To view:
 http://realpiratesship.troisen.com/delayed_job/overview
+
+To compile assets:
+rake assets:precompile

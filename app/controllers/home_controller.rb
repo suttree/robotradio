@@ -3,9 +3,6 @@ require 'mp3info'
 class HomeController < ApplicationController
   def index
     # ugh
-    #@files = Dir.entries(Rails.root + 'public/content/').reject{ |file| ['.', '..'].include? (file) }.collect{ |f| "/content/#{f}" }
-
-
     files =  Dir.entries(Rails.root.to_s + '/public/content/').select{ |x| x != '.' && x != '..' }.sort_by{ |f|File.mtime(Rails.root + 'public/content/' + f) }.reverse.collect{ |f| "/content/#{f}" }[0..9]
 
     @files = []
