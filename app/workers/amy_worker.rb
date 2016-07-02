@@ -6,6 +6,6 @@ class AmyWorker
     doc = Nokogiri::HTML(open('http://amyhref.com'))
     links = doc.css('.links a')
     link = links[rand(links.length)].attributes['href'].to_s
-    StoryWorker.create(link)
+    StoryWorker.delay.create(link)
   end
 end
