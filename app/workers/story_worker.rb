@@ -15,7 +15,8 @@ class StoryWorker
 
     file_list = [title_file, file_list].flatten
 
-    create_mp3(file_list, body['title'], body['lead_image_url'], url)
+    mp3, image = create_mp3(file_list, body['title'], body['lead_image_url'], url)
+    create_show(mp3, body['title'], url, image)
   end
 
   protected
@@ -100,7 +101,7 @@ puts "node script/ivona.js \"#{file_name}\" \"#{content}\" \"#{type}\" "
       mp3.tag2.add_picture(cover_image.read) if cover_image
     end
 
-    return mp3
+    return [mp3, cover_image]
   end
 
   def self.upload_to_soundcloud(mp3, title)
@@ -115,5 +116,15 @@ puts "node script/ivona.js \"#{file_name}\" \"#{content}\" \"#{type}\" "
       :title => title,
       :asset_data => File.new(mp3, 'rb')
     })
+  end
+
+  def self.create_show(mp3, title, url, image)
+    Show.create(
+      :title => title,
+      :slug => title.to_url,
+      :url => url,
+      :filename => mp3,
+      :image => image
+    )
   end
 end

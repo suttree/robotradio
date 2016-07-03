@@ -1,0 +1,15 @@
+= flash[:notice]
+
+h1 Real pirates ship
+
+h2= @show.title
+
+audio preload='none'
+
+ol
+  - cache @show do
+    li 
+      =link_to @show.title, '#', :data => {:src => @show.filename, :title => @show.title, :url => @show.url}
+      - if @show.url.present?
+        small= @show.url
+
