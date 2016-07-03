@@ -60,7 +60,7 @@ puts "node script/ivona.js \"#{file_name}\" \"#{content}\" \"#{type}\" "
     responses = []
 
     content.scan(/[^\.!?]+[\.!?]/).map(&:strip).each do |sentence|
-      piece += sentence + '. '
+      piece += sentence
       if piece.length > 1000
         pieces << piece
         piece = ''
@@ -71,8 +71,6 @@ puts "node script/ivona.js \"#{file_name}\" \"#{content}\" \"#{type}\" "
     pieces.each_with_index do |piece, index|
       piece.gsub!('"', "'") # remove double quotes as they mess with the shonky shell-out below
       file_name = "rps-#{index}.mp3"
-      #stdin, stdout, stderr = Open3.popen3("node script/ivona.js \"#{file_name}\" \"#{piece}\" \"#{type}\" ")
-      #responses << stdout.read.split("\n")
       responses << ssml_convert_to_speech(piece, file_name)
     end
     responses
@@ -123,7 +121,7 @@ puts "node script/ivona.js \"#{file_name}\" \"#{content}\" \"#{type}\" "
       :title => title,
       :slug => title.to_url,
       :url => url,
-      :filename => mp3,
+      :filename => mp3.gsub('/public', ''),
       :image => image
     )
   end

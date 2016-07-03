@@ -53,4 +53,12 @@ $(function() {
     $('h2').text(title);
     audio.play();
   });
+
+  // Keyboard shortcut
+  $(document).keydown(function(e) {
+    var unicode = e.charCode ? e.charCode : e.keyCode;
+    if (unicode == 32) {
+      audio.playPause();
+    }
+  })
 });

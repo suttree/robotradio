@@ -64,6 +64,8 @@ GEM
       sinatra (>= 1.4.4)
     erubis (2.7.0)
     execjs (2.7.0)
+    font-awesome-rails (4.6.3.1)
+      railties (>= 3.2, < 5.1)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
     hashie (2.1.2)
@@ -195,6 +197,7 @@ DEPENDENCIES
   daemons
   delayed_job_active_record
   delayed_job_web
+  font-awesome-rails
   htmlentities
   httparty
   jbuilder (~> 2.0)
