@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   root 'home#index'
+  match '/(:page)', :to => 'home#index', :via => :get
   match '/shows/:slug', :to => 'shows#show', :via => :get
   match '/add', :to => 'home#add', :via => :get
   match '/save' ,:to => 'home#save', :via => :post
