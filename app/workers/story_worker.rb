@@ -60,7 +60,7 @@ puts "node script/ivona.js \"#{file_name}\" \"#{content}\" \"#{type}\" "
     responses = []
 
     content.scan(/[^\.!?]+[\.!?]/).map(&:strip).each do |sentence|
-      piece += sentence
+      piece += sentence + ' '
       if piece.length > 1000
         pieces << piece
         piece = ''
@@ -88,6 +88,7 @@ puts "node script/ivona.js \"#{file_name}\" \"#{content}\" \"#{type}\" "
     # add some metadata
     image = image.split(' ').first rescue nil
     cover_image = (image ? URI.parse(image) : File.new(Rails.root + 'app/assets/images/default_cover_image.jpg', 'rb'))
+    show_image = cover_image
     cover_image.read rescue (cover_image = false)
 
     mp3 = '/public/content/' + normalised_title + '.mp3'
@@ -99,7 +100,7 @@ puts "node script/ivona.js \"#{file_name}\" \"#{content}\" \"#{type}\" "
       mp3.tag2.add_picture(cover_image.read) if cover_image
     end
 
-    return [mp3, cover_image]
+    return [mp3, show_image]
   end
 
   def self.upload_to_soundcloud(mp3, title)
