@@ -15,8 +15,8 @@ class StoryWorker
 
     file_list = [title_file, file_list].flatten
 
-    mp3, image = create_mp3(file_list, body['title'], body['lead_image_url'], url)
-    create_show(mp3, body['title'], url, image)
+    mp3, image, duration = create_mp3(file_list, body['title'], body['lead_image_url'], url)
+    create_show(mp3, body['title'], url, image, duration)
   end
 
   protected
@@ -100,7 +100,9 @@ puts "node script/ivona.js \"#{file_name}\" \"#{content}\" \"#{type}\" "
       mp3.tag2.add_picture(cover_image.read) if cover_image
     end
 
-    return [mp3, show_image]
+    duration = Mp3Info.open(Rails.root.to_s + mp3).length
+
+    return [mp3, show_image, duration]
   end
 
   def self.upload_to_soundcloud(mp3, title)
@@ -117,13 +119,14 @@ puts "node script/ivona.js \"#{file_name}\" \"#{content}\" \"#{type}\" "
     })
   end
 
-  def self.create_show(mp3, title, url, image)
+  def self.create_show(mp3, title, url, image, duration)
     Show.create(
       :title => title,
       :slug => title.to_url,
       :url => url,
       :filename => mp3.gsub('/public', ''),
-      :image => image
+      :image => image,
+      :duration = duration
     )
   end
 end

@@ -11,9 +11,11 @@ ol
     - @shows.each do |show|
       li 
         =link_to show.title, '#', :data => {:src => show.filename, :title => show.title, :url => show.url}, :class => 'track'
-      ' &nbsp;
+      = Time.at(show.duration).utc.strftime("%H:%M:%S") rescue 'N/A'
+      br
       = link_to '/shows/' + show.slug do
         = fa_icon('link')
+      br
       br
 
 = will_paginate @shows
