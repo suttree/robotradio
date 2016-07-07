@@ -126,7 +126,7 @@ puts "node script/ivona.js \"#{file_name}\" \"#{content}\" \"#{type}\" "
       :url => url,
       :filename => mp3.gsub('/public', ''),
       :image => image,
-      :duration = duration
+      :duration => duration
     )
   end
 end
