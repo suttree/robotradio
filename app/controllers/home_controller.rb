@@ -2,7 +2,7 @@ require 'mp3info'
 
 class HomeController < ApplicationController
   def index
-    @shows = Show.order('created_at DESC').paginate(:page => params[:page])
+    @shows = Show.order('created_at DESC').paginate(:page => params[:page], :per_page => 1)
   end
 
   def add

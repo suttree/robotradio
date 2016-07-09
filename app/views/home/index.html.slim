@@ -17,12 +17,13 @@
           h5
             = show.title
           h3.meta
-            =link_to '#', :data => {:src => show.filename, :title => show.title, :url => show.url}, :class => 'track' do
-              = fa_icon('play')
             small style='float: right'
-              = Time.at(show.duration).utc.strftime("%H:%M:%S") rescue ''
-              br
+              = Time.at(show.duration).utc.strftime("%H:%M:%S") rescue '--'
+              '&nbsp;
               = link_to '/shows/' + show.slug do
                 = fa_icon('external-link')
+            =link_to '#', :data => {:src => show.filename, :title => show.title, :url => show.url}, :class => 'track' do
+              = fa_icon('play')
 
+.large-2.large-centered.columns
   = will_paginate @shows
