@@ -61,7 +61,7 @@ puts "node script/ivona.js \"#{file_name}\" \"#{content}\" \"#{type}\" "
 
     content.scan(/[^\.!?]+[\.!?]/).map(&:strip).each do |sentence|
       piece += sentence + ' '
-      if piece.length > 1000
+      if piece.length > 2500
         pieces << piece
         piece = ''
       end
