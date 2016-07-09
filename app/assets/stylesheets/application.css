@@ -143,6 +143,15 @@ p.about {
   background-color: #fff;
 }
 
+.audiojs {
+  width: 460px;
+  max-width: 460px;
+}
+
+.audiojs .play-pause {
+  width: 35px;
+}
+
 .card {
   text-align: center;
   width: 600px;

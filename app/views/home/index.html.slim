@@ -1,8 +1,13 @@
-.large-12.large-centered.columns
-  - content_for :title do
-    .title.hide-for-small
-      = fa_icon('feed fa-3x', class: 'fa-3x')
+- content_for :title do
+  .title.hide-for-small
+    ' Radio
+    ' &nbsp;
+    = fa_icon('feed fa-3x', class: 'fa-2x')
+    ' &nbsp;
+    ' robot
 
+.large-12.large-centered.columns
+  h3.meta.showtitle style='text-align: center;' Radio Robot
   audio preload
 
   .links
@@ -16,7 +21,8 @@
               = fa_icon('play')
             small style='float: right'
               = Time.at(show.duration).utc.strftime("%H:%M:%S") rescue ''
+              br
               = link_to '/shows/' + show.slug do
                 = fa_icon('external-link')
 
-= will_paginate @shows
+  = will_paginate @shows

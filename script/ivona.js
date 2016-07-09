@@ -4,8 +4,12 @@ var fs = require('fs'),
   Ivona = require('ivona-node');
 
 var ivona = new Ivona({
-  accessKey: 'GDNAIWABFZTUS7TFCI5Q',
-  secretKey: 'l5tEgLDQzeR85ZuH8/VMvS1Px7Noltuac6ZDjQwQ'
+  // gmail.com
+  //accessKey: 'GDNAIWABFZTUS7TFCI5Q',
+  //secretKey: 'l5tEgLDQzeR85ZuH8/VMvS1Px7Noltuac6ZDjQwQ'
+  // suttree.com
+  accessKey: 'GDNAI5JADSIYUGT3DWGQ',
+  secretKey: 'CNvNVrmqBSs4Wo1gQ5OokJQdJOn+kpMuDVV13BBP'
 });
 
 var voices = ['Emma', 'Amy']
