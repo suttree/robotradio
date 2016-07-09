@@ -16,9 +16,6 @@
  *= require font-awesome
  */
 
-/*= require foundation
-
-
 /*
 @import url(http://fonts.googleapis.com/css?family=Domine);
 @import url(http://fonts.googleapis.com/css?family=Bitter);
@@ -34,7 +31,7 @@ body, .top-bar {
 
 .flash {
   font-family: sans-serif;
-  background: #00B5CA;
+  background-color: #87CEFA; 
   position: fixed;
   width: 100%;
   top: 0;
@@ -138,7 +135,7 @@ p.about {
   margin-top: 1em;
 }
 
-.link {
+.link, .audiojs {
   width: 600px;
   max-width: 100%;
   margin: 5px auto;

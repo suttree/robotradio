@@ -1,20 +1,22 @@
 .large-12.large-centered.columns
   - content_for :title do
     .title.hide-for-small
-      i class="fa fa-wifi fa-3x"
+      = fa_icon('feed fa-3x', class: 'fa-3x')
 
   audio preload
 
   .links
-    ol
-      - cache @shows do
-        - @shows.each do |show|
-          .link id="#{show.id}"
-            li 
-              =link_to show.title, '#', :data => {:src => show.filename, :title => show.title, :url => show.url}, :class => 'track'
-            = Time.at(show.duration).utc.strftime("%H:%M:%S") rescue 'N/A'
-            br
-            = link_to '/shows/' + show.slug do
-              = fa_icon('link')
+    - cache @shows do
+      - @shows.each do |show|
+        .link id="#{show.id}" style='padding: 10px;'
+          h5
+            = show.title
+          h3.meta
+            =link_to '#', :data => {:src => show.filename, :title => show.title, :url => show.url}, :class => 'track' do
+              = fa_icon('play')
+            small style='float: right'
+              = Time.at(show.duration).utc.strftime("%H:%M:%S") rescue ''
+              = link_to '/shows/' + show.slug do
+                = fa_icon('external-link')
 
 = will_paginate @shows
