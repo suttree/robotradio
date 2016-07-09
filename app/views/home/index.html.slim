@@ -1,22 +1,20 @@
-= flash[:notice]
+.large-12.large-centered.columns
+  - content_for :title do
+    .title.hide-for-small
+      i class="fa fa-wifi fa-3x"
 
-h1 Real pirates ship
+  audio preload
 
-h2
-
-audio preload
-
-ol
-  - cache @shows do
-    - @shows.each do |show|
-      li 
-        =link_to show.title, '#', :data => {:src => show.filename, :title => show.title, :url => show.url}, :class => 'track'
-      = Time.at(show.duration).utc.strftime("%H:%M:%S") rescue 'N/A'
-      br
-      = link_to '/shows/' + show.slug do
-        = fa_icon('link')
-      br
-      br
+  .links
+    ol
+      - cache @shows do
+        - @shows.each do |show|
+          .link id="#{show.id}"
+            li 
+              =link_to show.title, '#', :data => {:src => show.filename, :title => show.title, :url => show.url}, :class => 'track'
+            = Time.at(show.duration).utc.strftime("%H:%M:%S") rescue 'N/A'
+            br
+            = link_to '/shows/' + show.slug do
+              = fa_icon('link')
 
 = will_paginate @shows
-

@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require foundation
 //= require turbolinks
 //= require_tree .
 //= require audiojs
@@ -62,3 +63,9 @@ $(function() {
     }
   })
 });
+
+$(document).on('ready page:load', function(event) {
+  Turbolinks.enableProgressBar();
+});
+
+$(function(){ $(document).foundation(); });

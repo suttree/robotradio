@@ -12,21 +12,286 @@
  *
  *= require_tree .
  *= require_self
+ *= require foundation_and_overrides
  *= require font-awesome
  */
 
-input {
-    border: 5px solid white; 
-    -webkit-box-shadow: 
-      inset 0 0 8px  rgba(0,0,0,0.1),
-            0 0 16px rgba(0,0,0,0.1); 
-    -moz-box-shadow: 
-      inset 0 0 8px  rgba(0,0,0,0.1),
-            0 0 16px rgba(0,0,0,0.1); 
-    box-shadow: 
-      inset 0 0 8px  rgba(0,0,0,0.1),
-            0 0 16px rgba(0,0,0,0.1); 
-    padding: 15px;
-    background: rgba(255,255,255,0.5);
-    margin: 0 0 10px 0;
+/*= require foundation
+
+
+/*
+@import url(http://fonts.googleapis.com/css?family=Domine);
+@import url(http://fonts.googleapis.com/css?family=Bitter);
+@import url(http://fonts.googleapis.com/css?family=Montserrat);
+@import url(http://fonts.googleapis.com/css?family=Poppins);
+*/
+@import url(http://fonts.googleapis.com/css?family=Chivo);
+@import url(http://fonts.googleapis.com/css?family=Merriweather);
+
+body, .top-bar {
+  background-color: #87CEFA; 
 }
+
+.flash {
+  font-family: sans-serif;
+  background: #00B5CA;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 99999999;
+  left: 0;
+  padding: 1em 0;
+  cursor: pointer;
+  text-align: center;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.header {
+  position: absolute;
+  width: 100%;
+  top: 0.5em;
+}
+
+.signin, .signout, .current-filter {
+  position: absolute;
+  top: .5em;
+  right: 1em;
+  z-index: 1;
+}
+
+.current-filter {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 60%;
+}
+
+.you {
+  position: absolute;
+  top: .5em;
+  left: 1em;
+}
+
+.title {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  font-family: "Merriweather", Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.5rem;
+  color: #4c5759;
+}
+
+.filters {
+  margin-top: 5em;
+  left: 1em;
+}
+
+.filters ul {
+  list-style-type: none;
+}
+
+.filters ul li {
+  line-height: 1.5em;
+  overflow: hidden;
+}
+
+.filters ul li a {
+  text-decoration: none;
+}
+
+li .selected {
+  font-weight: bold;
+}
+
+h1, h2, h3 {
+  font-weight: bold;
+  font-family: 'Chivo', sans-serif;
+}
+
+h1 {
+  color: #000;
+  margin-bottom: 1.5em;
+  text-align: center;
+}
+
+h3.filter{
+  color: #464646;
+  font-size: 1.17em;
+  font-weight: bold;
+}
+
+p.about {
+  text-align: center;
+  margin-top: -2.5em;
+  margin-bottom: 2.5em;
+  font-weight: italic;
+}
+
+.archive {
+  text-align: center;
+  margin-bottom: 2em;
+}
+
+.links {
+  margin-top: 1em;
+}
+
+.link {
+  width: 600px;
+  max-width: 100%;
+  margin: 5px auto;
+  position: relative;
+  background-color: #fff;
+}
+
+.card {
+  text-align: center;
+  width: 600px;
+  padding: 0px;
+  position: relative;
+  max-width: 100%;
+  margin: 5px auto;
+  color: #464646;
+  position: relative;
+  width: auto;
+  z-index: 1;
+  font-family: Oxygen,Arial,"Helvetica Neue",Helvetica,sans-serif;
+  padding: 1em;
+  font-size: 13px;
+  line-height: 20px;
+  background: transparent;
+}
+
+.embedly-card {
+  padding: 0 1em;
+}
+
+div.embedly-card {
+}
+
+.break {
+  background-color: #87CEFA; 
+  margin: 0;
+  padding-top: .25em;
+  height: 6em;
+}
+
+.break .meta {
+  text-align: right;
+  font-size: small;
+  color: #130f30;
+  height: 0;
+}
+
+.link:hover > .break .train {
+  visibility: visible;
+}
+
+.break .train {
+  text-align: center;
+  visibility: hidden;
+}
+
+.train__mobile {
+  text-align: left !important;
+  margin-top: -.125em;
+}
+
+.show-for-mobile {
+  visibility: visible !important;
+}
+
+
+.day {
+  width: 100%;
+  padding: 1em;
+  display: block;
+  margin-bottom: 5em;
+  text-align: center;
+  background-color: #87CEFA; 
+}
+
+.date {
+  width: 600px;
+  color: #464646;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.initial-date {
+  margin-bottom: 1.25em;
+  padding-top: .25em;
+}
+
+.btn {
+  border-style: solid;
+  border-width: 1px;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: bold;
+  line-height: 1;
+  text-decoration: none;
+  text-align: center;
+  display: inline-block;
+  font-size: 1.25em;
+  color: #333;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.75rem;
+  border: none;
+  color: #4c5759;
+  font-weight: normal;
+  box-shadow: none;
+  transition: none;
+  margin: 0;
+}
+
+.btn:hover {
+  transition: .3s;
+  color: #fff;
+}
+
+.btn.btn--primary {
+  color: #00b5ca;
+}
+
+.btn.btn--on-white {
+  background-color: #c4cecf;
+}
+
+.fa-heart {
+  color: #4169e1;
+}
+
+.fa-check {
+  color: #1AC339;
+}
+
+.fa-minus-circle {
+  color: #dd2626;
+}
+
+.on-dark {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Foundation overrides */
+
+.full-width {
+  max-width: initial;
+}
+
+.top-bar-section ul {
+  width: auto;
+}
+
+ul {
+  margin-left: initial;
+}
+
