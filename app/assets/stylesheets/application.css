@@ -145,7 +145,7 @@ p.about {
 
 .audiojs {
   width: 460px;
-  max-width: 460px;
+  max-width: 100%;
 }
 
 .audiojs .play-pause {
