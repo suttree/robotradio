@@ -23,7 +23,7 @@ $(function() {
   // mostly taken from view-source:http://kolber.github.io/audiojs/demos/test6.html
   var a = audiojs.createAll({
     trackEnded: function() {
-      var next = $('.links .link a.playing').next().next().next();
+      var next = $('.links .link a.playing').parent().parent().next();
       if (!next.length) next = $('.links .link a').first();
       next.addClass('playing').siblings().removeClass('playing');
       audio.load($('a.track', next).attr('data-src'));
