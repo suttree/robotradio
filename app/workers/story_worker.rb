@@ -16,7 +16,7 @@ class StoryWorker
     file_list = [title_file, file_list].flatten
 
     mp3, image, duration = create_mp3(file_list, body['title'], body['lead_image_url'], url)
-    create_show(mp3, body['title'], url, image, duration)
+    create_show(mp3, body['title'], url, image, duration) if (duration/60 > 2) # don't register short tracks
   end
 
   protected
