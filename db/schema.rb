@@ -14,37 +14,37 @@
 ActiveRecord::Schema.define(version: 20161212074861) do
 
   create_table "delayed_jobs", force: :cascade do |t|
-    t.integer  "priority",   default: 0, null: false
-    t.integer  "attempts",   default: 0, null: false
-    t.text     "handler",                null: false
-    t.text     "last_error"
+    t.integer  "priority",   limit: 4,        default: 0, null: false
+    t.integer  "attempts",   limit: 4,        default: 0, null: false
+    t.text     "handler",    limit: 16777215,             null: false
+    t.text     "last_error", limit: 16777215
     t.datetime "run_at"
     t.datetime "locked_at"
     t.datetime "failed_at"
-    t.string   "locked_by"
-    t.string   "queue"
+    t.string   "locked_by",  limit: 255
+    t.string   "queue",      limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "delayed_jobs", ["failed_at", "attempts"], name: "index_delayed_jobs_on_failed_at_and_attempts"
-  add_index "delayed_jobs", ["failed_at"], name: "index_delayed_jobs_on_failed_at"
-  add_index "delayed_jobs", ["locked_at", "failed_at"], name: "index_delayed_jobs_on_locked_at_and_failed_at"
-  add_index "delayed_jobs", ["locked_at"], name: "index_delayed_jobs_on_locked_at"
-  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority"
+  add_index "delayed_jobs", ["failed_at", "attempts"], name: "index_delayed_jobs_on_failed_at_and_attempts", using: :btree
+  add_index "delayed_jobs", ["failed_at"], name: "index_delayed_jobs_on_failed_at", using: :btree
+  add_index "delayed_jobs", ["locked_at", "failed_at"], name: "index_delayed_jobs_on_locked_at_and_failed_at", using: :btree
+  add_index "delayed_jobs", ["locked_at"], name: "index_delayed_jobs_on_locked_at", using: :btree
+  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
   create_table "shows", force: :cascade do |t|
-    t.string   "title"
-    t.string   "slug"
-    t.string   "url"
-    t.string   "filename"
-    t.string   "image"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-    t.float    "duration"
-    t.string   "cover_image_file_name"
-    t.string   "cover_image_content_type"
-    t.integer  "cover_image_file_size"
+    t.string   "title",                    limit: 255
+    t.string   "slug",                     limit: 255
+    t.string   "url",                      limit: 255
+    t.string   "filename",                 limit: 255
+    t.string   "image",                    limit: 255
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+    t.float    "duration",                 limit: 24
+    t.string   "cover_image_file_name",    limit: 255
+    t.string   "cover_image_content_type", limit: 255
+    t.integer  "cover_image_file_size",    limit: 4
     t.datetime "cover_image_updated_at"
   end
 
