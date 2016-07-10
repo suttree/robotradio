@@ -146,9 +146,14 @@ p.about {
   border-bottom: 1px solid #ccc;
 }
 
+.link {
+  min-height: 120px;
+}
+
 .audiojs {
   width: 460px;
   max-width: 100%;
+  border: none;
 }
 
 .audiojs .play-pause {
