@@ -150,6 +150,10 @@ p.about {
   min-height: 120px;
 }
 
+.playing {
+  border-bottom: 3px solid #fea621;
+}
+
 .audiojs {
   width: 460px;
   max-width: 100%;
