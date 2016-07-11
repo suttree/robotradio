@@ -3,4 +3,12 @@ namespace :content do
   task :amy => :environment do
     AmyWorker.delay.create
   end
+
+  task :tiny_assistant => :environment do
+    TinyAssistantWorker.delay.create
+  end
+
+  task :daily_inspiration => :environment do
+    DailyInspirationWorker.delay.create
+  end
 end
