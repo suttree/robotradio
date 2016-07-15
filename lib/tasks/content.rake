@@ -11,4 +11,8 @@ namespace :content do
   task :daily_inspiration => :environment do
     DailyInspirationWorker.delay.create
   end
+
+  task :longreads => :environment do
+    LongReadsWorker.delay.create
+  end
 end

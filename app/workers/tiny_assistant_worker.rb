@@ -7,6 +7,6 @@ class TinyAssistantWorker
     doc = Nokogiri::HTML(open('https://twitter.com/TinyAssistant'))
     links = doc.css('a.twitter-timeline-link')
     link = links[rand(links.length)].attributes['href'].to_s
-    StoryWorker.delay.create(link) if link
+    StoryWorker.delay.create(link) if link.present?
   end
 end
