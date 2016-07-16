@@ -15,4 +15,8 @@ namespace :content do
   task :longreads => :environment do
     LongReadsWorker.delay.create
   end
+
+  task :feeds => :environment do
+    FeedsWorker.delay.create
+  end
 end
