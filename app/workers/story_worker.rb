@@ -1,6 +1,7 @@
 require 'open3'
 require 'uri'
 require 'open-uri'
+require 'open_uri_redirections'
 require 'mp3info'
 require 'soundcloud'
 
