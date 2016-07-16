@@ -7,6 +7,6 @@ class DailyInspirationWorker
     doc = Nokogiri::HTML(open('http://www.dailyinspirationalquotes.in/', :allow_redirections => :safe))
     links = doc.css('a[rel=bookmark]')
     link = links[rand(links.length)].attributes['href'].to_s
-    StoryWorker.delay.create(link) if link
+    StoryWorker.delay.create(link) if link.present?
   end
 end
