@@ -18,4 +18,4 @@
         =link_to '#', :data => {:src => @show.filename, :title => @show.title, :url => @show.url}, :class => 'track' do
           = fa_icon('play')
         small style='float: right'
-          = Time.at(@show.duration).utc.strftime("%H:%M:%S") rescue ''
+          = Time.at(@show.duration).utc.strftime("%H:%M:%S") rescue '--:--'

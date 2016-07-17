@@ -19,7 +19,7 @@
             = show.title
           h3.meta
             small style='float: right'
-              = Time.at(show.duration).utc.strftime("%H:%M:%S") rescue '--'
+              = Time.at(show.duration).utc.strftime("%H:%M:%S") rescue '--:--'
               '&nbsp;
               = link_to '/shows/' + show.slug do
                 = fa_icon('external-link')
