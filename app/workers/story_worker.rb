@@ -93,12 +93,22 @@ puts "node script/ivona.js \"#{file_name}\" \"#{content}\" \"#{type}\" "
     cover_image.read rescue (cover_image = false)
 
     mp3 = '/public/content/' + normalised_title + '.mp3'
-    Mp3Info.open(Rails.root.to_s + mp3) do |mp3|
-      mp3.tag.title = title
-      mp3.tag.artist = 'Real pirates ship'
-      mp3.tag.album = Date.today.to_s
-      mp3.tag.comment = url
-      mp3.tag2.add_picture(cover_image.read) if cover_image
+    begin
+      Mp3Info.open(Rails.root.to_s + mp3) do |mp3|
+        mp3.tag.title = title
+        mp3.tag.artist = 'Real pirates ship'
+        mp3.tag.album = Date.today.to_s
+        mp3.tag.comment = url
+        mp3.tag2.add_picture(cover_image.read) if cover_image
+      end
+    rescue Mp3InfoEOFError
+      # adding images is flaky right now, this is ugly but yeah...
+      Mp3Info.open(Rails.root.to_s + mp3) do |mp3|
+        mp3.tag.title = title
+        mp3.tag.artist = 'Real pirates ship'
+        mp3.tag.album = Date.today.to_s
+        mp3.tag.comment = url
+      end
     end
 
     duration = Mp3Info.open(Rails.root.to_s + mp3).length
