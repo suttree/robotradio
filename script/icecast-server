@@ -1,0 +1,4 @@
+#!/bin/sh
+
+icecast -c /usr/local/etc/icecast.xml &
+ices -c /usr/local/etc/ices.conf.dist -P moriarty &
