@@ -8,8 +8,11 @@ var ivona = new Ivona({
   //accessKey: 'GDNAIWABFZTUS7TFCI5Q',
   //secretKey: 'l5tEgLDQzeR85ZuH8/VMvS1Px7Noltuac6ZDjQwQ'
   // suttree.com
-  accessKey: 'GDNAI5JADSIYUGT3DWGQ',
-  secretKey: 'CNvNVrmqBSs4Wo1gQ5OokJQdJOn+kpMuDVV13BBP'
+  //accessKey: 'GDNAI5JADSIYUGT3DWGQ',
+  //secretKey: 'CNvNVrmqBSs4Wo1gQ5OokJQdJOn+kpMuDVV13BBP'
+  // somewhere.com
+  accessKey: 'GDNAIWSNGHCUH7H247GA',
+  secretKey: 'WfZzO5fFtAFDO5vSv+wBSAYBjRmucpxazLEQvL6B'
 });
 
 var voices = ['Emma', 'Amy']
