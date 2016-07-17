@@ -11,8 +11,10 @@ var ivona = new Ivona({
   //accessKey: 'GDNAI5JADSIYUGT3DWGQ',
   //secretKey: 'CNvNVrmqBSs4Wo1gQ5OokJQdJOn+kpMuDVV13BBP'
   // somewhere.com
-  accessKey: 'GDNAIWSNGHCUH7H247GA',
-  secretKey: 'WfZzO5fFtAFDO5vSv+wBSAYBjRmucpxazLEQvL6B'
+  //accessKey: 'GDNAIWSNGHCUH7H247GA',
+  //secretKey: 'WfZzO5fFtAFDO5vSv+wBSAYBjRmucpxazLEQvL6B'
+  accessKey: 'GDNAIQLLLEPXXYXXSUOA',
+  secretKey: 'nuEVX+YZ6VJniuDkgrTEB+eg87A9gXef4bUqOiV',
 });
 
 var voices = ['Emma', 'Amy']
