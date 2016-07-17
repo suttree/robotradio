@@ -8,7 +8,9 @@
 
 .large-12.large-centered.columns
   h3.meta.showtitle style='text-align: center;' Radio Robot
-  audio preload
+  //audio preload
+  audio src="http://radiorobot.troisen.com:8080/stream" preload="auto"
+
 
   .links
     - cache @shows do
