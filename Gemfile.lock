@@ -114,6 +114,7 @@ GEM
     nokogiri (1.6.8)
       mini_portile2 (~> 2.1.0)
       pkg-config (~> 1.1.7)
+    open_uri_redirections (0.2.1)
     paperclip (5.0.0)
       activemodel (>= 4.2.0)
       activesupport (>= 4.2.0)
@@ -225,6 +226,7 @@ DEPENDENCIES
   jquery-rails
   mysql2
   nokogiri
+  open_uri_redirections
   paperclip (~> 5.0.0)
   rails (= 4.2.6)
   ruby-mp3info
@@ -242,4 +244,4 @@ DEPENDENCIES
   will_paginate (~> 3.1.0)
 
 BUNDLED WITH
-   1.11.2
+   1.12.5

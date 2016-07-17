@@ -13,7 +13,7 @@ class FeedsWorker
       entry = feed.entries.sort_by{ rand }.first
       entry.clean! rescue nil
 
-      doc = Nokogiri::HTML(open(entry, :allow_redirections => :safe))
+      doc = Nokogiri::HTML(open(entry.urls.sort_by{ rand }.first, :allow_redirections => :safe))
       links = doc.css('a')
       link = links[rand(links.length)].attributes['href'].to_s
       StoryWorker.delay.create(link) if link
