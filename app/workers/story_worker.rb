@@ -18,6 +18,7 @@ class StoryWorker
 
     mp3, image, duration = create_mp3(file_list, body['title'], body['lead_image_url'], url)
     create_show(mp3, body['title'], url, image, duration) if (duration/60 > 2) # don't register short tracks
+    add_to_playlist(mp3)
   end
 
   protected
@@ -49,7 +50,6 @@ class StoryWorker
       </speak>
     eos
     stdin, stdout, stderr = Open3.popen3("node script/ivona.js \"#{file_name}\" \"#{content}\" \"#{type}\" ")
-puts "node script/ivona.js \"#{file_name}\" \"#{content}\" \"#{type}\" "
     stdout.read.split("\n")
   end
 
@@ -134,5 +134,11 @@ puts "node script/ivona.js \"#{file_name}\" \"#{content}\" \"#{type}\" "
       :cover_image => image,
       :duration => duration
     )
+  end
+
+  def self.add_to_playlist(mp3)
+    open(Rails.root.to_s + 'icecast.playlist', 'a') do |f|
+      f << Rails.root.to_s + mp3
+    end
   end
 end
