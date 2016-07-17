@@ -1,0 +1,18 @@
+Install guide - http://www.oclug.org/icecast.html
+
+/usr/local/icecast
+/usr/local/icecast/conf 
+
+conf file
+/usr/local/etc/icecast.xml
+
+log files
+/var/log/icecast/
+
+test icecast:
+icecast -c /usr/local/etc/icecast.xml
+
+ices:
+/usr/local/bin/ices
+/usr/local/etc/ices.conf.dist
+ices -c /usr/local/etc/ices.conf.dist   -P moriarty
