@@ -313,3 +313,6 @@ ul {
   margin-left: initial;
 }
 
+.pagination {
+  text-align: center;
+}
