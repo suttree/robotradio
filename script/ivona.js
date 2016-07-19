@@ -13,8 +13,11 @@ var ivona = new Ivona({
   // somewhere.com
   //accessKey: 'GDNAIWSNGHCUH7H247GA',
   //secretKey: 'WfZzO5fFtAFDO5vSv+wBSAYBjRmucpxazLEQvL6B'
-  accessKey: 'GDNAIQLLLEPXXYXXSUOA',
-  secretKey: 'nuEVX+YZ6VJniuDkgrTEB+eg87A9gXef4bUqOiV',
+  //accessKey: 'GDNAIHUY4HDFH4WNMHPQ',
+  //secretKey: 'IhqMckceXeQu+jTIjCBVIYj4wo1+RXwge+RMZNfg'
+  // vam
+  accessKey: 'GDNAIU6U4I2DTR2ZZBWQ',
+  secretKey: 'K3MzESxQaBh0J4DwQsMeDg2FJIipfbBo7on1Rcyl'
 });
 
 var voices = ['Emma', 'Amy']
