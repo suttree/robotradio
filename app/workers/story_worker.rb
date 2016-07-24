@@ -62,7 +62,7 @@ class StoryWorker
 
     content.scan(/[^\.!?]+[\.!?]/).map(&:strip).each do |sentence|
       piece += sentence + ' '
-      if piece.length > 5000
+      if piece.length > 7500
         pieces << piece
         piece = ''
       end
