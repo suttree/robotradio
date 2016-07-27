@@ -3,22 +3,31 @@
 var fs = require('fs'),
   Ivona = require('ivona-node');
 
-var ivona = new Ivona({
-  // gmail.com
-  //accessKey: 'GDNAIWABFZTUS7TFCI5Q',
-  //secretKey: 'l5tEgLDQzeR85ZuH8/VMvS1Px7Noltuac6ZDjQwQ'
-  // suttree.com
-  //accessKey: 'GDNAI5JADSIYUGT3DWGQ',
-  //secretKey: 'CNvNVrmqBSs4Wo1gQ5OokJQdJOn+kpMuDVV13BBP'
-  // somewhere.com
-  //accessKey: 'GDNAIWSNGHCUH7H247GA',
-  //secretKey: 'WfZzO5fFtAFDO5vSv+wBSAYBjRmucpxazLEQvL6B'
-  //accessKey: 'GDNAIHUY4HDFH4WNMHPQ',
-  //secretKey: 'IhqMckceXeQu+jTIjCBVIYj4wo1+RXwge+RMZNfg'
-  // vam
-  accessKey: 'GDNAIU6U4I2DTR2ZZBWQ',
-  secretKey: 'K3MzESxQaBh0J4DwQsMeDg2FJIipfbBo7on1Rcyl'
-});
+var ivona_keys = {
+  'gmail': {
+    accessKey: 'GDNAIWABFZTUS7TFCI5Q',
+    secretKey: 'l5tEgLDQzeR85ZuH8/VMvS1Px7Noltuac6ZDjQwQ'
+  },
+  'suttree': {
+    accessKey: 'GDNAI5JADSIYUGT3DWGQ',
+    secretKey: 'CNvNVrmqBSs4Wo1gQ5OokJQdJOn+kpMuDVV13BBP'
+  },
+  'somewhere': {
+    accessKey: 'GDNAIWSNGHCUH7H247GA',
+    secretKey: 'WfZzO5fFtAFDO5vSv+wBSAYBjRmucpxazLEQvL6B'
+  },
+  'huh': {
+    accessKey: 'GDNAIHUY4HDFH4WNMHPQ',
+    secretKey: 'IhqMckceXeQu+jTIjCBVIYj4wo1+RXwge+RMZNfg'
+  },
+  'vam': {
+    accessKey: 'GDNAIU6U4I2DTR2ZZBWQ',
+    secretKey: 'K3MzESxQaBh0J4DwQsMeDg2FJIipfbBo7on1Rcyl'
+  }
+}
+var keys = Object.keys(ivona_keys);
+var random_key = ivona_keys[keys[Math.floor(keys.length * Math.random())]];
+var ivona = new Ivona(random_key);
 
 var voices = ['Emma', 'Amy']
 var voice = voices[Math.floor(Math.random() * voices.length)];
