@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 var fs = require('fs'),
-  Ivona = require('ivona-node');
+    Ivona = require('ivona-node');
 
 var ivona_keys = {
   'gmail': {
@@ -15,6 +15,10 @@ var ivona_keys = {
   'somewhere': {
     accessKey: 'GDNAIWSNGHCUH7H247GA',
     secretKey: 'WfZzO5fFtAFDO5vSv+wBSAYBjRmucpxazLEQvL6B'
+  },
+  'somewherehq': {
+    accessKey: 'GDNAI4RFIX22H72TPRIQ',
+    secretKey: '8WLll1FIwCrTYpz82eI6HYIZ1W6/BHYGKAMNW+Ub'
   },
   'huh': {
     accessKey: 'GDNAIHUY4HDFH4WNMHPQ',
