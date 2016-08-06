@@ -34,15 +34,17 @@ $(function() {
   });
   var audio = a[0];
 
-  // preload w/ ondemand
-  //first = $('.links .link a.track').attr('data-src');
-  //title = $('.links .link a.track').attr('data-title');
-  //audio.load(first);
-  //$('h3.meta.showtitle').text(title);
-
-  // preload w/ livestream
-  audio.load('http://radiorobot.troisen.com:8080/stream');
-  $('h3.meta.showtitle').text('On air');
+  if ($('.links .link a.track').attr('data-page') == 'permalink') {
+    // preload w/ ondemand
+    first = $('.links .link a.track').attr('data-src');
+    title = $('.links .link a.track').attr('data-title');
+    audio.load(first);
+    $('h3.meta.showtitle').text(title);
+  } else {
+    // preload w/ livestream
+    audio.load('http://radiorobot.troisen.com:8080/stream');
+    $('h3.meta.showtitle').text('On air');
+  }
 
   $('.links .link a.track').click(function(e) {
     e.preventDefault();
