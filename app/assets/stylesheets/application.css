@@ -150,6 +150,10 @@ p.about {
   min-height: 120px;
 }
 
+.link:hover {
+  border: 1px solid #3eb0f7;
+}
+
 .playing {
   border-bottom: 3px solid #fea621;
 }

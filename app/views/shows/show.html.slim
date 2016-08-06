@@ -16,5 +16,5 @@
       h5
         = @show.title
       h3.meta
-        small style='float: right'
+        small
           = Time.at(@show.duration).utc.strftime("%H:%M:%S") rescue '--:--'
