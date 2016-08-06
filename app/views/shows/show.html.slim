@@ -1,17 +1,18 @@
 - content_for :title do
   .title
-    ' Radio
-    ' &nbsp;
-    = fa_icon('feed fa-3x', class: 'fa-2x')
-    ' &nbsp;
-    ' robot
+    = link_to '/' do
+      ' Radio
+      ' &nbsp;
+      = fa_icon('feed fa-3x', class: 'fa-2x')
+      ' &nbsp;
+      ' robot
 
 .large-12.large-centered.columns
   h3.meta.showtitle style='text-align: center;'= @show.title
   audio preload
 
   .links
-    .link id="#{@show.id}" style='padding: .5em 1em .5em 1em;' data-page='permalink' data-src='#{@show.filename}' data-title='#{@show.title}'
+    .link id="#{@show.id}" style='padding: .5em;' data-page='permalink' data-src='#{@show.filename}' data-title='#{@show.title}'
       = image_tag @show.cover_image.url(:thumb), size: '100x100', style: 'float: left; margin: 0 1em 1em 0;'
       h5
         = @show.title
