@@ -11,11 +11,10 @@
   audio preload
 
   .links
-    .link id="#{@show.id}" style='padding: .5em 1em .5em 1em;'
+    .link id="#{@show.id}" style='padding: .5em 1em .5em 1em;' data-page='permalink' data-src='#{@show.filename}' data-title='#{@show.title}'
+      = image_tag @show.cover_image.url(:thumb), size: '100x100', style: 'float: left; margin: 0 1em 1em 0;'
       h5
         = @show.title
       h3.meta
-        =link_to '#', :data => {:src => @show.filename, :title => @show.title, :url => @show.url, :page => 'permalink'}, :class => 'track' do
-          = fa_icon('play')
         small style='float: right'
           = Time.at(@show.duration).utc.strftime("%H:%M:%S") rescue '--:--'
