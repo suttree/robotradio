@@ -43,7 +43,7 @@ class StoryWorker
     clean.strip
   end
 
-  def self. ssml_convert_to_speech(content, file_name, type = 'application/ssml+xml')
+  def self.ssml_convert_to_speech(content, file_name, type = 'application/ssml+xml')
     content = <<-eos
       <speak>
         <break/>#{content}
@@ -97,7 +97,7 @@ class StoryWorker
     begin
       Mp3Info.open(Rails.root.to_s + mp3) do |mp3|
         mp3.tag.title = title
-        mp3.tag.artist = 'Real pirates ship'
+        mp3.tag.artist = 'Radio Robot'
         mp3.tag.album = Date.today.to_s
         mp3.tag.comment = url
         mp3.tag2.add_picture(cover_image.read) if cover_image

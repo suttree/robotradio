@@ -1,3 +1,6 @@
+require 'open-uri'
+require 'open_uri_redirections'
+
 class Show < ActiveRecord::Base
   has_attached_file :cover_image, styles: {
     large: '600x300>',
