@@ -11,7 +11,7 @@ class LongReadsWorker
 
     if link.present?
       link = 'http://www.theatlantic.com' + link
-      StoryWorker.delay.create(link)
+      StoryWorker.create(link)
     end
 
     puts "Searching with longreads 2"
@@ -21,7 +21,7 @@ class LongReadsWorker
 
     if link.present?
       link = 'http://www.newstatesman.com' + link
-      StoryWorker.delay.create(link)
+      StoryWorker.create(link)
     end
   end
 end
