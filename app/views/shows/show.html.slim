@@ -1,6 +1,6 @@
 - content_for :title do
   .title
-    = link_to '/' do
+    = link_to '/', :data => {:no_turbolink => true} do
       ' Radio
       ' &nbsp;
       = fa_icon('feed fa-3x', class: 'fa-2x')
