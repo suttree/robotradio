@@ -1,4 +1,12 @@
 #!/bin/sh
 
-icecast -c /usr/local/etc/icecast.xml &
-ices -c /usr/local/etc/ices.conf.dist -P moriarty &
+# See /etc/init.d/icecast
+#  and /etc/init.d/icecast stop
+#   or /etc/init.d/icecast start
+#killall icecast
+#killall ices
+#icecast -c /usr/local/etc/icecast.xml &
+#ices -c /usr/local/etc/ices.conf.dist -P moriarty &
+
+/etc/init.d/icecast stop
+/etc/init.d/icecast start

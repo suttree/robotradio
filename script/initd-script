@@ -1,0 +1,58 @@
+#!/bin/sh
+#
+# icecast This shell script takes care of starting and stopping
+# the icecast multimedia streaming systen.
+#
+# config: /etc/icecast/icecast.xml
+
+# Source function library.
+. /lib/lsb/init-functions
+
+[ -x /usr/local/bin/icecast ] || exit 0
+
+# See how we were called.
+case "$1" in
+start)
+# Start daemon.
+echo -n $"Starting icecast streaming daemon: "
+/usr/local/bin/icecast -c /usr/local/etc/icecast.xml -b
+RETVAL=$?
+echo
+[ $RETVAL -eq 0 ] && touch /var/lock/subsys/icecast
+/usr/local/bin/ices -c /usr/local/etc/ices.conf.dist -P moriarty
+;;
+stop)
+# Stop daemon.
+echo -n $"Shutting down icecast streaming daemon: "
+killproc ices
+killproc icecast
+killall ices
+killall icecast
+RETVAL=$?
+echo
+[ $RETVAL -eq 0 ] && rm -f /var/lock/subsys/icecast
+;;
+status)
+status icecast
+RETVAL=$?
+;;
+restart)
+$0 stop
+$0 start
+;;
+reload)
+echo -n $"Reloading icecast: "
+killproc icecast -HUP
+RETVAL=$?
+echo
+;;
+condrestart)
+[ -f /var/lock/subsys/icecast ] && restart || :
+;;
+*)
+echo $"Usage: $0 {start|stop|status|restart|reload}"
+RETVAL=1
+;;
+esac
+
+exit $RETVAL
