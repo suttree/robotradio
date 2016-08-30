@@ -17,7 +17,7 @@
       - @shows.each do |show|
         = link_to '/shows/' + show.slug, :data => {:no_turbolink => true} do
           .link id="#{show.id}" style='padding: .5em;'
-            = image_tag show.cover_image.url(:thumb), size: '100x100', style: 'float: left; margin: 0 1em 1em 0;'
+            = image_tag show.cover_image.url(:thumb), size: '100x100', style: 'float: left; margin: 0 1em 0 0;'
             h5
               = show.title
             h3.meta

@@ -60,7 +60,7 @@ body, .top-bar {
 .current-filter {
   text-overflow: ellipsis;
   overflow: hidden;
-  max-width: 60%;
+  max-width: 50%;
 }
 
 .you {
@@ -117,6 +117,15 @@ h1 {
   text-align: center;
 }
 
+h3.meta {
+  font-weight: normal;
+  margin-bottom: 0;
+}
+
+h3.meta small {
+  font-size: 50%;
+}
+
 h3.filter{
   color: #464646;
   font-size: 1.17em;
@@ -152,10 +161,6 @@ p.about {
 
 .link {
   min-height: 120px;
-}
-
-.link:hover {
-  border: 1px solid #3eb0f7;
 }
 
 .playing {
