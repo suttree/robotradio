@@ -19,4 +19,8 @@ namespace :content do
   task :feeds => :environment do
     FeedsWorker.create
   end
+
+  task :vam => :environment do
+    VamWorker.create
+  end
 end
