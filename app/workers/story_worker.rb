@@ -25,8 +25,14 @@ class StoryWorker
   def self.fetch_article_content(article_url)
     # scrape the url for just the text (vis readability or instapaper)
     # - v2 find related articles and include those
-    url = "http://readability.com/api/content/v1/parser?url=" + URI.escape(article_url) + '&token=' + Rails.application.secrets.readability_token
-    response = HTTParty.get(url)
+    #url = "http://readability.com/api/content/v1/parser?url=" + URI.escape(article_url) + '&token=' + Rails.application.secrets.readability_token
+
+    url = 'https://mercury.postlight.com/parser?url=' + URI.escape(article_url) 
+    headers = {
+      'Content-Type' => 'application/json',
+      'x-api-key' => Rails.application.secrets.postlight_token
+    }
+    response = HTTParty.get(url, :headers => headers)
     JSON.parse(response.body)
   end
 
