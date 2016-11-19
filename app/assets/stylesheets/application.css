@@ -17,16 +17,17 @@
  */
 
 /*
-@import url(http://fonts.googleapis.com/css?family=Domine);
-@import url(http://fonts.googleapis.com/css?family=Bitter);
-@import url(http://fonts.googleapis.com/css?family=Montserrat);
-@import url(http://fonts.googleapis.com/css?family=Poppins);
+@import url(https://fonts.googleapis.com/css?family=Domine);
+@import url(https://fonts.googleapis.com/css?family=Bitter);
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
+@import url(https://fonts.googleapis.com/css?family=Poppins);
 */
-@import url(http://fonts.googleapis.com/css?family=Chivo);
-@import url(http://fonts.googleapis.com/css?family=Merriweather);
+@import url(https://fonts.googleapis.com/css?family=Chivo);
+@import url(https://fonts.googleapis.com/css?family=Merriweather);
 
 body, .top-bar {
   background-color: #87CEFA; 
+  background: url(/bg/congruent_pentagon.png) repeat center center fixed; 
 }
 
 .flash {

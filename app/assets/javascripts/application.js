@@ -13,7 +13,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require foundation
-//= require turbolinks
 //= require_tree .
 //= require audiojs
 
@@ -42,7 +41,7 @@ $(function() {
     $('h3.meta.showtitle').text(title);
   } else {
     // preload w/ livestream
-    audio.load('http://radiorobot.troisen.com:8080/stream');
+    audio.load('https://radiorobot.troisen.com:8080/stream');
     $('h3.meta.showtitle').text('On air');
   }
 
@@ -67,8 +66,8 @@ $(function() {
   })
 });
 
-$(document).on('ready page:load', function(event) {
-  Turbolinks.enableProgressBar();
-});
+//$(document).on('ready page:load', function(event) {
+//  Turbolinks.enableProgressBar();
+//});
 
 $(function(){ $(document).foundation(); });
