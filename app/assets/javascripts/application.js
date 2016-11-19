@@ -41,7 +41,7 @@ $(function() {
     $('h3.meta.showtitle').text(title);
   } else {
     // preload w/ livestream
-    audio.load('https://radiorobot.troisen.com:8080/stream');
+    audio.load('http://radiorobot.troisen.com:8080/stream');
     $('h3.meta.showtitle').text('On air');
   }
 

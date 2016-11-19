@@ -9,7 +9,7 @@
 .large-12.large-centered.columns
   h3.meta.showtitle style='text-align: center;' Radio Robot
   //audio preload
-  audio src="https://radiorobot.troisen.com:8080/stream" preload="auto"
+  audio src="http://radiorobot.troisen.com:8080/stream" preload="auto"
 
 
   .links
@@ -25,4 +25,4 @@
                 = Time.at(show.duration).utc.strftime("%H:%M:%S") rescue '--:--'
 
 .large-4.large-centered.columns
-  = will_paginate @shows
+  = will_paginate @shows, :page_links => false

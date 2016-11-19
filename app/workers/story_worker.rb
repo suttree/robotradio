@@ -13,7 +13,6 @@ class StoryWorker
     intro = body['title'] + ". <break strength='strong'/>" + Time.now.strftime("%A, %B #{Time.now.day.ordinalize}, %Y")
     title_file = ssml_convert_to_speech(intro, 'title.mp3')
     file_list = convert_to_speech(content)
-
     file_list = [title_file, file_list].flatten
 
     mp3, image, duration = create_mp3(file_list, body['title'], body['lead_image_url'], url)
@@ -43,9 +42,10 @@ class StoryWorker
     clean = clean.gsub(/<(?:.|\n)*?>/m, '')
     #clean = clean.gsub(/(?:(?:\r\n|\r|\n)\s*){2,}/i, '\n')
     clean = clean.gsub(/(<([^>]+)>)/i, '')
-    clean = clean.gsub('&nbsp;', ' ')
     #clean = clean.gsub('\n', ' ')
     clean = HTMLEntities.new.decode(clean)
+    clean = clean.gsub('&nbsp;', ' ')
+    clean = clean.gsub('&', 'and')
     clean.strip
   end
 
