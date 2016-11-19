@@ -13,9 +13,10 @@
 
   .links
     .link id="#{@show.id}" style='padding: .5em;' data-page='permalink' data-src='#{@show.filename}' data-title='#{@show.title}'
-      = image_tag @show.cover_image.url(:thumb), size: '100x100', style: 'float: left; margin: 0 1em 1em 0;'
-      h5
-        = @show.title
-      h3.meta
-        small
-          = Time.at(@show.duration).utc.strftime("%H:%M:%S") rescue '--:--'
+      = link_to @show.url do
+        = image_tag @show.cover_image.url(:thumb), size: '100x100', style: 'float: left; margin: 0 1em 1em 0;'
+        h5
+          = @show.title 
+        h3.meta
+          small
+            = Time.at(@show.duration).utc.strftime("%H:%M:%S") rescue '--:--'
