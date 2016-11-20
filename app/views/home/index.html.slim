@@ -1,9 +1,7 @@
 - content_for :title do
   .title
     ' Radio
-    ' &nbsp;
-    = fa_icon('feed fa-3x', class: 'fa-2x')
-    ' &nbsp;
+    img style="margin-left: .25em; margin-right: .5em;" src="/logo/radio.png" alt="Radio Robot logo" width="32" height="32"
     ' robot
 
 .large-12.large-centered.columns
@@ -24,5 +22,5 @@
               small
                 = Time.at(show.duration).utc.strftime("%H:%M:%S") rescue '--:--'
 
-.large-4.large-centered.columns
+.large-4.large-centered.columns style='padding: 1em;'
   = will_paginate @shows, :page_links => false

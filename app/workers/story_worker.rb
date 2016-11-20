@@ -89,7 +89,11 @@ class StoryWorker
 
     # join together each audio line to create a full mp3
     file_list.collect{ |f| f.prepend(Rails.root.to_s + '/') }
-    `mp3wrap #{Rails.root}/public/content/#{normalised_title}.mp3 #{file_list.join(' ')}`
+    value = `mp3wrap #{Rails.root}/public/content/#{normalised_title}.mp3 #{file_list.join(' ')}`
+    #value = %x( mp3wrap #{Rails.root}/public/content/#{normalised_title}.mp3 #{file_list.join(' ')} )
+puts file_list.inspect
+puts value.inspect
+puts "XXXXXXXXX"
     `mv #{Rails.root}/public/content/#{normalised_title}_MP3WRAP.mp3 #{Rails.root}/public/content/#{normalised_title}.mp3`
     `chmod 777 #{Rails.root}/public/content/#{normalised_title}.mp3`
 
