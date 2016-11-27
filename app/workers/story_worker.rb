@@ -55,7 +55,7 @@ class StoryWorker
         <break/>#{content}
       </speak>
     eos
-    stdin, stdout, stderr = Open3.popen3("node script/ivona.js \"#{file_name}\" \"#{content}\" \"#{type}\" ")
+    stdin, stdout, stderr = Open3.popen3("/usr/local/bin/node script/ivona.js \"#{file_name}\" \"#{content}\" \"#{type}\" ")
     stdout.read.split("\n")
   end
 
@@ -68,18 +68,19 @@ class StoryWorker
 
     content.scan(/[^\.!?]+[\.!?]/).map(&:strip).each do |sentence|
       piece += sentence + ' '
-      if piece.length > 7500
+      if piece.length > 5000
         pieces << piece
         piece = ''
       end
     end
-    pieces << piece;
+    pieces << piece
 
     pieces.each_with_index do |piece, index|
       piece.gsub!('"', "'") # remove double quotes as they mess with the shonky shell-out below
       file_name = "rps-#{index}.mp3"
       responses << ssml_convert_to_speech(piece, file_name)
     end
+
     responses
   end
 
@@ -91,9 +92,6 @@ class StoryWorker
     file_list.collect{ |f| f.prepend(Rails.root.to_s + '/') }
     value = `mp3wrap #{Rails.root}/public/content/#{normalised_title}.mp3 #{file_list.join(' ')}`
     #value = %x( mp3wrap #{Rails.root}/public/content/#{normalised_title}.mp3 #{file_list.join(' ')} )
-puts file_list.inspect
-puts value.inspect
-puts "XXXXXXXXX"
     `mv #{Rails.root}/public/content/#{normalised_title}_MP3WRAP.mp3 #{Rails.root}/public/content/#{normalised_title}.mp3`
     `chmod 777 #{Rails.root}/public/content/#{normalised_title}.mp3`
 

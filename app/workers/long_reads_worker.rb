@@ -21,7 +21,9 @@ class LongReadsWorker
 
     if link.present?
       link = 'http://www.newstatesman.com' + link
-      StoryWorker.delay.create(link)
+puts link.inspect
+puts "LR LINK ---------"
+      StoryWorker.create(link)
     end
   end
 end
