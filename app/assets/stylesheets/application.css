@@ -126,6 +126,10 @@ h3.meta {
   margin-bottom: 0;
 }
 
+h3.meta.showtitle {
+  float: none;
+}
+
 h3.meta small {
   font-size: 50%;
 }
