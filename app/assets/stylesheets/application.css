@@ -120,6 +120,8 @@ h1 {
 }
 
 h3.meta {
+  clear: both;
+  float: right;
   font-weight: normal;
   margin-bottom: 0;
 }
