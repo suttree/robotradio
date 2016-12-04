@@ -17,7 +17,7 @@
           .link id="#{show.id}" style='padding: .5em;'
             = image_tag show.cover_image.url(:thumb), size: '100x100', style: 'float: right; margin: 0 0 0 1em;'
             h5
-              = truncate(show.title, length: 85)
+              = truncate(show.title, length: 150)
             h3.meta
               small
                 = Time.at(show.duration).utc.strftime("%H:%M:%S") rescue '--:--'
