@@ -16,3 +16,12 @@ ices:
 /usr/local/bin/ices
 /usr/local/etc/ices.conf.dist
 ices -c /usr/local/etc/ices.conf.dist   -P moriarty
+
+debugging:
+turn off background and turn on verbose mode in /usr/local/etc/ices.conf.dist 
+look for mising files in icecast-playlist
+
+jingles etc:
+http://askubuntu.com/questions/231340/how-to-run-an-automated-internet-radio-station-in-a-server-environment
+http://savonet.sourceforge.net/
+http://savonet.sourceforge.net/doc-svn/quick_start.html
