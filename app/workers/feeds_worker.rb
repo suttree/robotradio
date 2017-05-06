@@ -4,7 +4,7 @@ require 'feed-normalizer'
 
 class FeedsWorker
   def self.create
-    feeds = ['http://mentalfloss.com/uk/feeds/all', 'http://www.solidsmack.com/feed/']
+    feeds = ['http://mentalfloss.com/uk/feeds/all', 'http://www.solidsmack.com/feed/', 'http://feeds.feedburner.com/Metafilter']
 
     feeds.each do |url|
       puts "Searching with feeds - " + url
