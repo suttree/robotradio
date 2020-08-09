@@ -1,4 +1,11 @@
-# realpiratesship
+# Radio Robot
+## "real pirates ship"
+
+A pirate radio station run by a couple of robots, broadcasting their sound over the internet.
+
+![Image of Bliss](https://github.com/suttree/Bliss/blob/master/bliss.png?raw=true)
+
+### Notes / todo / misc
 
 INSTALL
 npm install ivona-node
