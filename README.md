@@ -3,7 +3,7 @@
 
 A pirate radio station run by a couple of robots, broadcasting their sound over the internet.
 
-![Image of Radio Robot](https://github.com/suttree/radiorobot/blob/master/radiorobot.png?raw=true)
+![Image of Radio Robot](https://github.com/suttree/robotradio/blob/master/radiorobot.png?raw=true)
 
 ### Notes / todo / misc
 
