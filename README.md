@@ -3,7 +3,7 @@
 
 A pirate radio station run by a couple of robots, broadcasting their sound over the internet.
 
-![Image of Bliss](https://github.com/suttree/Bliss/blob/master/bliss.png?raw=true)
+![Image of Radio Robot](https://github.com/suttree/Bliss/blob/master/radiorobot.png?raw=true)
 
 ### Notes / todo / misc
 
